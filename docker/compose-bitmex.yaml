@@ -1,0 +1,151 @@
+#
+# Services.
+#
+networks:
+  kx-net:
+    external: true
+services:
+  rt-bitmex:
+      image: ${KX_DOCKER_REG}/kxi-rt:${RT_VERSION}
+      # Need to set hostname so rt nodes/publishers/subcribers can find each other
+      hostname: rt-bitmex-0
+      command: [
+        '-p', '${rt_bitmex_port_0}', '-in', '/s/in', '-out', '/s/out', '-cp',
+        '/s/state', '-size', '${kxi_rt_replicas}', '-limit', '${kxi_rt_limit}',
+        '-time', '${kxi_rt_time}', '-disk', '${kxi_rt_disk}'
+      ]
+      environment:
+        - RT_EXPORT_METRIC="0"
+        - RT_TOPIC_PREFIX=rt-
+        - RT_EXTERN_PREFIX=rt-
+        - RT_SINK=bitmex
+        - RT_STREAM=bitmex
+        - RT_LOGLEVEL_CONSOLE=${RT_LOG_LEVEL}
+        - RT_QURAFT_LOG_LEVEL=${RT_LOG_LEVEL}
+        - RT_SEQ_SESSION_PATH=/s/session
+        - RAFT_HEARTBEAT=${kxi_rt_heartbeat}
+        - RAFT_LOG_SIZE=${kxi_rt_log_size}
+        - RAFT_CHUNK_SIZE=${kxi_rt_chunk_size}
+      ports:
+        - ${rt_bitmex_port_0}:${rt_bitmex_port_0}
+        - ${rt_bitmex_port_1}:${rt_bitmex_port_1}
+        - ${rt_bitmex_port_2}:${rt_bitmex_port_2}
+      restart: unless-stopped
+      user: root
+      networks: 
+        - kx-net
+      volumes:
+        - ${RT_LOG_DIR}:/s   
+        - ${LIC_DIR}:/opt/kx/lic
+  sp-worker-bitmex:
+    image: ${KX_DOCKER_REG}/kxi-sp-python:${SP_PY_VERSION}
+    command: -p ${sp_worker_bitmex_port}
+    restart: "always"
+    depends_on:
+      - rt-bitmex 
+    environment:
+      - KXI_LOG_LEVELS=default:info       
+      - KXI_SP_SPEC=/opt/kx/cfg/sp/bitmex.py
+      - KXI_PORT=${sp_worker_bitmex_port}
+      - RT_TOPIC_PREFIX=rt-
+      - RT_STREAM=bitmex
+      # - KXI_CONFIG_FILE=/opt/kx/cfg/sp/sp-config.json
+      # - KXI_SP_BETA_FEATURES=true
+    ports:
+      - 127.0.0.1::${sp_worker_bitmex_port}
+      - ${sp_worker_bitmex_port}:${sp_worker_bitmex_port}
+    volumes:
+      - ${LIC_DIR}:/opt/kx/lic 
+      - ${DATA_DIR}/sp:/sp   
+      - ${CFG_DIR}:/opt/kx/cfg 
+    env_file:
+      - .env 
+    stdin_open: true
+    tty: true
+    user: root
+    networks:
+      - kx-net
+  sm-bitmex:
+  #
+  # Storage Manager
+  #  
+    image: ${KX_DOCKER_REG}/kxi-sm-single:${DATABASE_VERSION}
+    restart: "always"
+    depends_on:
+      - rt-bitmex
+    environment:
+      - KXI_NAME=sm
+      - KXI_SC=SM
+      - KXI_PORT=${sm_bitmex_port}
+      - KXI_ASSEMBLY_FILE=/opt/kx/cfg/${BITMEX_ASSEMBLY_FILE_YAML}
+      - KXI_RT_LIB=/opt/kx/cfg/rt_tick_client_lib.q
+      - KXI_SM_SMPORT=${sm_bitmex_port}      ## Remove??
+      - KXI_SM_EOIPORT=${sm_bitmex_EOI_port}     ## Remove??
+      - KXI_LOG_LEVELS=default:info  
+      - KXI_CONFIG_FILE=/opt/kx/cfg/metrics/sidecar/sm-bitmex-config.json
+      - RT_TOPIC_PREFIX=rt-
+      - RT_STREAM=bitmex
+      # - KXI_LATE_DATA=true    
+    ports:
+      - 127.0.0.1::${sm_bitmex_port}
+      - ${sm_bitmex_port}:${sm_bitmex_port}
+    volumes:
+      - ${LIC_DIR}:/opt/kx/lic    
+      - ${DATA_DIR}:/data
+      - ${RT_LOG_DIR}:/logs
+      - ${CFG_DIR}:/opt/kx/cfg 
+    env_file:
+      - .env 
+    stdin_open: true
+    tty: true  
+    user: root
+    networks:
+      - kx-net    
+
+  #
+  # Data Access
+  #  
+  da-single-bitmex:
+    image: ${KX_DOCKER_REG}/kxi-da-single:${DATABASE_VERSION}
+    restart: "always"
+    depends_on:
+      - rt-bitmex
+    environment:
+      - KXI_NAME=dap
+      - KXI_SC=dap
+      - KXI_PORT=${da_single_bitmex_port}
+      - KXI_LOG_LEVELS=default:info 
+      - KXI_ASSEMBLY_FILE=/opt/kx/cfg/${BITMEX_ASSEMBLY_FILE_YAML}
+      - KXI_DA_RDB_THREADS=4
+      - KXI_DA_IDB_THREADS=4
+      - KXI_DA_HDB_THREADS=8
+      - KXI_CUSTOM_FILE=/opt/kx/cfg/da/custom.api.q
+      - KXI_SG_RC_ADDR=sgrc:${sgrc_port}
+      - KXI_ALLOWED_SBX_APIS=.kxi.sql,.kxi.qsql,.kxi.sql2
+      # Optional for gathering metrics
+      - KXI_CONFIG_FILE=/opt/kx/cfg/metrics/sidecar/dap-config.json
+      - RT_TOPIC_PREFIX=rt-
+      - RT_STREAM=bitmex
+      # - KXI_DA_START_SIDECARS=true
+      # - KXI_DA_SIDECAR_BASEPORT=8081
+      # - KX_KURL_DISABLE_AUTO_REGISTER=1
+    ports:
+      - 127.0.0.1::${da_single_bitmex_port}
+      - 127.0.0.1::${da_rdb_bitmex_port}
+      - 127.0.0.1::${da_idb_bitmex_port}
+      - 127.0.0.1::${da_hdb_bitmex_port}
+    volumes:
+      - ${LIC_DIR}:/opt/kx/lic    
+      - ${DATA_DIR}:/data
+      - ${RT_LOG_DIR}:/logs
+      - ${CFG_DIR}:/opt/kx/cfg 
+    deploy:
+      mode: replicated
+      replicas: 1
+    env_file:
+      - .env    
+    stdin_open: true
+    tty: true 
+    user: root
+    networks:
+      - kx-net

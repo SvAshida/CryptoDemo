@@ -1,0 +1,19 @@
+global:
+  scrape_interval:     15s # By default, scrape targets every 15 seconds.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds.
+
+scrape_configs:
+  - job_name: 'monitoring'
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        # - dap-sidecar:8080
+        - rdb-sidecar:8080
+        - idb-sidecar:8080
+        - hdb-sidecar:8080
+        - sm-sidecar:8080
+        - sgrc-sidecar:8080
+        - agg-sidecar:8080
+        - sggw:8081
+        # - kxi-da:8080
+        # - sp-sidecar:8080

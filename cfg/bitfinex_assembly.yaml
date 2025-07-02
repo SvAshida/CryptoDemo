@@ -1,0 +1,140 @@
+name: "bitfinex-assembly"
+description: "Sample assembly file"
+
+labels:
+  region: apac 
+  assetClass: crypto
+  exchange: bitfinex
+
+tables:
+  _heartbeats:
+    type: splayed_mem
+    columns:
+      - name: time
+        type: timespan
+      - name: sym
+        type: symbol
+      - name: foo
+        type: float
+  trade:
+    description: Trade data 
+    type: partitioned
+    blockSize: 10000
+    prtnCol: time
+    sortColsOrd: sym
+    sortColsDisk: sym
+    columns:
+      - name: time
+        description: Trade time (when the match occurred)
+        type: timestamp
+      - name: sym
+        description: Symbol (the Coin)
+        type: symbol
+        attrMem: grouped
+        attrDisk: parted
+        attrOrd: parted
+      - name: tradeID 
+        description: Trade ID (unique ID related to the trade)
+        type: 
+      - name: amount
+        description: Quantity traded (positive = buy, negative = sell)
+        type: float
+      - name: price
+        description: Trade price
+        type: float
+      - name: side
+        description: buy or sell signal
+        type: symbol
+      - name: exchange
+        description: Source exchange
+        type: symbol
+  quote:
+    description: Tick-level quote updates
+    type: partitioned
+    blockSize: 10000
+    prtnCol: time
+    sortColsOrd: sym
+    sortColsDisk: sym
+    columns:
+      - name: time
+        description: Receive time (when message was received)
+        type: timestamp
+      - name: sym
+        description: Symbol (e.g. BTCUSD)
+        type: symbol
+        attrMem: grouped
+        attrDisk: parted
+        attrOrd: parted
+      - name: side
+        description: Side of book (bid or ask)
+        type: symbol
+      - name: price
+        description: Price level of this order
+        type: float
+      - name: size
+        description: Quantity at the price level
+        type: float
+      - name: action
+        description: Update type (update or remove)
+        type: symbol
+      - name: exchange
+        description: Name of exchange from which quote data has been sourced
+        type: symbol
+bus:
+  stream:
+    protocol: rt
+    topic: bitfinex
+
+mounts:
+  rdb:
+    type: stream
+    baseURI: file://stream
+    partition: none
+  idb:
+    type: local
+    baseURI: file:///data/idb
+    partition: ordinal
+  hdb:
+    type: local
+    baseURI: file:///data/hdb
+    partition: date
+
+elements:
+  dap:
+    # gwAssembly: sgrc:5060 
+    # gwEndpoints: sgrc:5060  
+    # lateData: true  
+    smEndpoints: sm-bitfinex:10001
+    instances:
+      dap:
+        mountList: [rdb, idb, hdb]
+      # RDB:
+      #   mountName: rdb
+      # IDB:
+      #   mountName: idb
+      # HDB:
+      #   mountName: hdb
+
+  sm:
+    description: Storage manager
+    source: stream
+    tiers:
+      - name: stream
+        mount: rdb
+      - name: idb
+        mount: idb
+        schedule:
+          freq: 0D00:10:00      # every 10 minutes
+      - name: hdb1
+        mount: hdb
+        store: file:///data/hdb1
+        schedule:
+          snap: 00:00:00      # EOD at midnight     
+        retain: 
+          time: 1 days
+      - name: hdb2
+        mount: hdb
+        store: file:///data/hdb2
+        retain: 
+          time: 1 year
+    disableDiscovery: true    # Disables registering with discovery

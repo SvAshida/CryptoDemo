@@ -1,0 +1,160 @@
+#
+# Services.
+#
+networks:
+  kx-net:
+    external: true
+services:
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    restart: unless-stopped
+    networks:
+      - kx-net
+
+
+  zookeeper:
+    image: bitnami/zookeeper:3.8
+    container_name: zookeeper
+    ports:
+          - "2181:2181"
+    environment:
+          ALLOW_ANONYMOUS_LOGIN: yes
+    user: root
+    networks:
+      - kx-net
+
+  kafka:
+    image: bitnami/kafka:3.6
+    container_name: kafka
+    ports:
+          - "9092:9092"
+          - "29092:29092"
+    environment:
+          KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
+          KAFKA_CFG_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:29092
+          KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+          KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+          KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: "true"
+          ALLOW_PLAINTEXT_LISTENER: yes   
+    user: root
+    networks:
+      - kx-net
+  kdb-gw:
+    image: ${KX_DOCKER_REG}/qce:${QCE_VERSION}
+    restart: "always"
+    depends_on:
+      - sggw
+    environment:
+      - KXI_LOG_LEVELS=default:debug # Optional
+    command: dashgw.q -p ${kdb_gw_port}
+    working_dir: /opt/kx/tick
+    ports:
+      - 127.0.0.1::${kdb_gw_port}
+      - ${kdb_gw_port}:${kdb_gw_port}
+
+    volumes:
+      - ${LIC_DIR}:/opt/kx/lic    
+      - ${TICK_DIR}:/opt/kx/tick
+    env_file:
+      - .env 
+    stdin_open: true
+    tty: true
+    user: root
+    networks:
+      - kx-net
+  sgrc:
+    image: ${KX_DOCKER_REG}/kxi-sg-rc:${DATABASE_VERSION}
+    restart: "always"
+    environment:
+      - KXI_NAME=sg_rc
+      - KXI_PORT=${sgrc_port}
+      - KXI_LOG_LEVELS=default:debug      # Override
+      # - KXI_ASSEMBLY_FILE=/opt/kx/cfg/${ASSEMBLY_FILE_YAML}
+      - KXI_AUTH_DISABLED=1
+      - KXI_ALLOWED_SBX_APIS=.kxi.sql,.kxi.qsql,.kxi.sql2
+      - KXI_CONFIG_FILE=/opt/kx/cfg/metrics/sidecar/rc-config.json
+    ports:
+      - 127.0.0.1::${sgrc_port}
+      - ${sgrc_port}:${sgrc_port}
+    stdin_open: true
+    tty: true 
+    env_file:
+      - .env     
+    volumes: 
+      - ${LIC_DIR}:/opt/kx/lic 
+      - ${CFG_DIR}:/opt/kx/cfg  
+    user: root
+    networks:
+      - kx-net 
+
+  #
+  # Aggregator. Note we only have one here, but multiple can be configured.
+  #
+  sgagg:
+    image: ${KX_DOCKER_REG}/kxi-sg-agg:${DATABASE_VERSION}
+    restart: "always"
+    environment:
+      - KXI_NAME=sg_agg
+      - KXI_PORT=${sgagg_port}
+      # - KXI_ASSEMBLY_FILE=/opt/kx/cfg/${ASSEMBLY_FILE_YAML}
+      - KXI_CUSTOM_FILE=/opt/kx/cfg/agg/custom.q
+      - KXI_SG_RC_ADDR=sgrc:${sgrc_port}
+      - KXI_AUTH_DISABLED=1
+      - KXI_CONFIG_FILE=/opt/kx/cfg/metrics/sidecar/agg-config.json
+    ports:
+      - 127.0.0.1::${sgagg_port}
+      - ${sgagg_port}:${sgagg_port}
+    # Optional: deploy multiple replicas.
+    deploy:
+      mode: replicated
+      replicas: 1
+    env_file:
+      - .env     
+    stdin_open: true
+    tty: true 
+    volumes: 
+      - ${LIC_DIR}:/opt/kx/lic 
+      - ${CFG_DIR}:/opt/kx/cfg  
+    user: root
+    networks:
+      - kx-net      
+
+  #
+  # Gateway.
+  #
+  sggw:
+    image: ${KX_DOCKER_REG}/kxi-sg-gw:${DATABASE_VERSION}
+    restart: "always"
+    environment:
+      # - KXI_ASSEMBLY_FILE=/opt/kx/cfg/${ASSEMBLY_FILE_YAML}
+      - GATEWAY_QIPC_PORT=${sggw_QIPC_port}
+      - GATEWAY_HTTP_PORT=${sggw_HTTP_port}
+      - KXI_AUTH_DISABLED=1
+      - KXI_LOG_LEVELS=default:trace # Override  
+      - KXI_SG_RC_ADDR=sgrc:5060   
+      - KXI_SG_METRICS_ENABLED=true
+      - KXI_SG_METRICS_ENDPOINT=/metrics
+      - KXI_SG_METRICS_PORT=8081
+    ports:
+      - ${sggw_QIPC_port}:${sggw_QIPC_port}
+      - ${sggw_HTTP_port}:${sggw_HTTP_port}
+      - 8081:8081          # metrics
+    env_file:
+      - .env     
+    stdin_open: true
+    tty: true  
+    volumes: 
+      - ${LIC_DIR}:/opt/kx/lic 
+      - ${CFG_DIR}:/opt/kx/cfg  
+    user: root
+    networks:
+      - kx-net   
+
+volumes:
+  portainer_data:

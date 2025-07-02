@@ -1,0 +1,6 @@
+kafka-python
+websocket-client
+pykx
+numpy
+pandas
+plotly

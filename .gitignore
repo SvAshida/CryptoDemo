@@ -1,0 +1,10 @@
+data/
+dash/
+tplog/
+lic/
+logs/
+quickAnalytics.q
+query.ipynb
+settings.json
+.vscode/
+.venv/
