@@ -70,7 +70,7 @@ quote_source = (sp.read.from_kafka(topic=bitfinex_quote_topic, brokers=kfk_broke
 quote_pipeline = (quote_source
     #| sp.map(lambda x: ('quote', x), name="debug: Quote batch print")
     #| sp.write.to_process(handle=tp_hostport, mode='function', target='.u.upd', spread=True))
-    | sp.write.to_stream('quote','bitfinex')
+    | sp.write.to_stream('quote')
     )
 
 trade_source = (sp.read.from_kafka(topic=bitfinex_trade_topic, brokers=kfk_broker)
@@ -84,7 +84,7 @@ trade_pipeline = (trade_source
     #| sp.map(lambda x: ('quote', x), name="debug: Quote batch print")
     #| sp.write.to_process(handle=tp_hostport, mode='function', target='.u.upd', spread=True))
     | sp.map(logging_func)
-    | sp.write.to_stream('trade','bitfinex')
+    | sp.write.to_stream('trade')
     )
 
 sp.run(quote_pipeline,trade_pipeline)

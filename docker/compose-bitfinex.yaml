@@ -35,7 +35,7 @@ services:
       networks: 
         - kx-net
       volumes:
-        - ${RT_LOG_DIR}:/s   
+        - ${RT_LOG_DIR}:/s/bitfinex   
         - ${LIC_DIR}:/opt/kx/lic
   sp-worker-bitfinex:
     image: ${KX_DOCKER_REG}/kxi-sp-python:${SP_PY_VERSION}
@@ -49,6 +49,7 @@ services:
       - KXI_PORT=${sp_worker_bitfinex_port}
       - RT_TOPIC_PREFIX=rt-
       - RT_STREAM=bitfinex
+      - RT_PUB_TOPIC=bitfinex
       # - KXI_CONFIG_FILE=/opt/kx/cfg/sp/sp-config.json
       # - KXI_SP_BETA_FEATURES=true
     ports:

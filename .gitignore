@@ -8,3 +8,4 @@ query.ipynb
 settings.json
 .vscode/
 .venv/
+sp/__pycache__/
