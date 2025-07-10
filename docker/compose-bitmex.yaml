@@ -35,7 +35,7 @@ services:
       networks: 
         - kx-net
       volumes:
-        - ${RT_LOG_DIR}:/s/bitmex   
+        - ${RT_LOG_DIR}:/s   
         - ${LIC_DIR}:/opt/kx/lic
   sp-worker-bitmex:
     image: ${KX_DOCKER_REG}/kxi-sp-python:${SP_PY_VERSION}
@@ -50,6 +50,7 @@ services:
       - RT_TOPIC_PREFIX=rt-
       - RT_STREAM=bitmex
       - RT_PUB_TOPIC=bitmex
+      - RT_REPLICAS=${kxi_rt_replicas}
       # - KXI_CONFIG_FILE=/opt/kx/cfg/sp/sp-config.json
       # - KXI_SP_BETA_FEATURES=true
     ports:
@@ -80,20 +81,26 @@ services:
       - KXI_PORT=${sm_bitmex_port}
       - KXI_ASSEMBLY_FILE=/opt/kx/cfg/${BITMEX_ASSEMBLY_FILE_YAML}
       - KXI_RT_LIB=/opt/kx/cfg/rt_tick_client_lib.q
-      - KXI_SM_SMPORT=${sm_bitmex_port}      ## Remove??
-      - KXI_SM_EOIPORT=${sm_bitmex_EOI_port}     ## Remove??
-      - KXI_LOG_LEVELS=default:info  
+      - KXI_RT_SM_LOG_PATH=/logs/sm/bitmex
+      - KXI_RT_EOI_LOG_PATH=/logs/eoi/bitmex
+      - KXI_SM_SMPORT=${sm_bitmex_port}
+      - KXI_SM_EOIPORT=${sm_bitmex_EOI_port}
+      - KXI_LOG_LEVELS=default:info
       - KXI_CONFIG_FILE=/opt/kx/cfg/metrics/sidecar/sm-bitmex-config.json
       - RT_TOPIC_PREFIX=rt-
       - RT_STREAM=bitmex
+      - RT_REPLICAS=${kxi_rt_replicas}
+      - RT_LOG_PATH=/logs/bitmex
       # - KXI_LATE_DATA=true    
     ports:
       - 127.0.0.1::${sm_bitmex_port}
       - ${sm_bitmex_port}:${sm_bitmex_port}
+      - ${sm_bitmex_EOI_port}:${sm_bitmex_EOI_port}
     volumes:
       - ${LIC_DIR}:/opt/kx/lic    
-      - ${DATA_DIR}:/data
-      - ${RT_LOG_DIR}:/logs
+      - ${BITMEX_DATA_DIR}:/data/bitmex/db
+      - ${LOGS_DIR}:/logs/bitmex
+      - ${RT_LOG_DIR}:/logs/bitmex
       - ${CFG_DIR}:/opt/kx/cfg 
     env_file:
       - .env 
@@ -127,6 +134,7 @@ services:
       - KXI_CONFIG_FILE=/opt/kx/cfg/metrics/sidecar/dap-config.json
       - RT_TOPIC_PREFIX=rt-
       - RT_STREAM=bitmex
+      - RT_REPLICAS=${kxi_rt_replicas}
       # - KXI_DA_START_SIDECARS=true
       # - KXI_DA_SIDECAR_BASEPORT=8081
       # - KX_KURL_DISABLE_AUTO_REGISTER=1
@@ -137,8 +145,9 @@ services:
       - 127.0.0.1::${da_hdb_bitmex_port}
     volumes:
       - ${LIC_DIR}:/opt/kx/lic    
-      - ${DATA_DIR}:/data
-      - ${RT_LOG_DIR}:/logs
+      - ${BITMEX_DATA_DIR}:/data/bitmex/db
+      - ${LOGS_DIR}:/logs
+      - ${RT_LOG_DIR}:/logs/bitmex
       - ${CFG_DIR}:/opt/kx/cfg 
     deploy:
       mode: replicated

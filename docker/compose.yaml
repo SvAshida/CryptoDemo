@@ -52,13 +52,14 @@ services:
       - sggw
     environment:
       - KXI_LOG_LEVELS=default:debug # Optional
-    command: dashgw.q -p ${kdb_gw_port}
-    working_dir: /opt/kx/tick
+    command: da/dashgw.q -p ${kdb_gw_port}
+    working_dir: /opt/kx/cfg
     ports:
       - 127.0.0.1::${kdb_gw_port}
       - ${kdb_gw_port}:${kdb_gw_port}
 
     volumes:
+      - ${CFG_DIR}:/opt/kx/cfg  
       - ${LIC_DIR}:/opt/kx/lic    
       - ${TICK_DIR}:/opt/kx/tick
     env_file:

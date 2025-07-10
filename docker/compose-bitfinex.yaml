@@ -50,6 +50,7 @@ services:
       - RT_TOPIC_PREFIX=rt-
       - RT_STREAM=bitfinex
       - RT_PUB_TOPIC=bitfinex
+      - RT_REPLICAS=${kxi_rt_replicas}
       # - KXI_CONFIG_FILE=/opt/kx/cfg/sp/sp-config.json
       # - KXI_SP_BETA_FEATURES=true
     ports:
@@ -80,20 +81,26 @@ services:
       - KXI_PORT=${sm_bitfinex_port}
       - KXI_ASSEMBLY_FILE=/opt/kx/cfg/${BITFINEX_ASSEMBLY_FILE_YAML}
       - KXI_RT_LIB=/opt/kx/cfg/rt_tick_client_lib.q
-      - KXI_SM_SMPORT=${sm_bitfinex_port}      ## Remove??
-      - KXI_SM_EOIPORT=${sm_bitfinex_EOI_port}     ## Remove??
+      - KXI_RT_SM_LOG_PATH=/logs/sm/bitfinex
+      - KXI_RT_EOI_LOG_PATH=/logs/eoi/bitfinex
+      - KXI_SM_SMPORT=${sm_bitfinex_port}
+      - KXI_SM_EOIPORT=${sm_bitfinex_EOI_port}
       - KXI_LOG_LEVELS=default:info  
       - KXI_CONFIG_FILE=/opt/kx/cfg/metrics/sidecar/sm-bitfinex-config.json
       - RT_TOPIC_PREFIX=rt-
       - RT_STREAM=bitfinex
+      - RT_REPLICAS=${kxi_rt_replicas}
+      - RT_LOG_PATH=/logs/bitfinex
       # - KXI_LATE_DATA=true    
     ports:
       - 127.0.0.1::${sm_bitfinex_port}
       - ${sm_bitfinex_port}:${sm_bitfinex_port}
+      - ${sm_bitfinex_EOI_port}:${sm_bitfinex_EOI_port}
     volumes:
       - ${LIC_DIR}:/opt/kx/lic    
-      - ${DATA_DIR}:/data
-      - ${RT_LOG_DIR}:/logs
+      - ${BITFINEX_DATA_DIR}:/data/bitfinex/db
+      - ${LOGS_DIR}:/logs/bitfinex
+      - ${RT_LOG_DIR}:/logs/bitfinex
       - ${CFG_DIR}:/opt/kx/cfg 
     env_file:
       - .env 
@@ -127,6 +134,7 @@ services:
       - KXI_CONFIG_FILE=/opt/kx/cfg/metrics/sidecar/dap-config.json
       - RT_TOPIC_PREFIX=rt-
       - RT_STREAM=bitfinex
+      - RT_REPLICAS=${kxi_rt_replicas}
       # - KXI_DA_START_SIDECARS=true
       # - KXI_DA_SIDECAR_BASEPORT=8081
       # - KX_KURL_DISABLE_AUTO_REGISTER=1
@@ -137,8 +145,9 @@ services:
       - 127.0.0.1::${da_hdb_bitfinex_port}
     volumes:
       - ${LIC_DIR}:/opt/kx/lic    
-      - ${DATA_DIR}:/data
-      - ${RT_LOG_DIR}:/logs
+      - ${BITFINEX_DATA_DIR}:/data/bitfinex/db
+      - ${LOGS_DIR}:/logs
+      - ${RT_LOG_DIR}:/logs/bitfinex
       - ${CFG_DIR}:/opt/kx/cfg 
     deploy:
       mode: replicated
@@ -150,3 +159,33 @@ services:
     user: root
     networks:
       - kx-net
+  # sp-worker-bitfinex-orderbook:
+  #   image: ${KX_DOCKER_REG}/kxi-sp-python:${SP_PY_VERSION}
+  #   command: -p ${sp_worker_bitfinex_orderbook_port}
+  #   restart: "always"
+  #   depends_on:
+  #     - rt-bitfinex 
+  #   environment:
+  #     - KXI_LOG_LEVELS=default:info       
+  #     - KXI_SP_SPEC=/opt/kx/cfg/sp/bitfinex-orderbook.py
+  #     - KXI_PORT=${sp_worker_bitfinex_orderbook_port}
+  #     - RT_SUB_TOPIC=bitfinex
+  #     - RT_TOPIC_PREFIX=rt-
+  #     - RT_STREAM=bitfinex
+  #     - RT_PUB_TOPIC=bitfinex
+  #     # - KXI_CONFIG_FILE=/opt/kx/cfg/sp/sp-config.json
+  #     # - KXI_SP_BETA_FEATURES=true
+  #   ports:
+  #     - 127.0.0.1::${sp_worker_bitfinex_orderbook_port}
+  #     - ${sp_worker_bitfinex_orderbook_port}:${sp_worker_bitfinex_orderbook_port}
+  #   volumes:
+  #     - ${LIC_DIR}:/opt/kx/lic 
+  #     - ${DATA_DIR}/sp:/sp   
+  #     - ${CFG_DIR}:/opt/kx/cfg 
+  #   env_file:
+  #     - .env 
+  #   stdin_open: true
+  #   tty: true
+  #   user: root
+  #   networks:
+  #     - kx-net 
