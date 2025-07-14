@@ -34,8 +34,8 @@ def normalize_symbol(sym):
         sym=sym.replace(old, new)
     return sym
 
-def emit_tick(sym, side, price, size):
-    action = "remove" if price == 0 or size == 0 else "update"
+def emit_tick(sym, side, price, size, orderID, action):
+    action = "remove" if action == "delete" else "update"
     message = {
         "time": datetime.datetime.now(datetime.UTC).isoformat(timespec="microseconds").replace("+00:00", "Z"),
         "sym": normalize_symbol(sym),
@@ -43,8 +43,10 @@ def emit_tick(sym, side, price, size):
         "price": float(price),
         "size": float(size),
         "action": action,
+        "orderID": str(orderID),
         "exchange": "bitmex"
     }
+    print(message)
     producer.send("bitmex.quotes", value=message)
 
 def on_message(ws, message):
@@ -53,20 +55,22 @@ def on_message(ws, message):
     except Exception as e:
         logging.info("❌ JSON decode error:", e)
         return
-
-    if msg.get("table") == "quote" and msg.get("action") == "insert":
+    if msg.get("table") == "orderBookL2_25" and msg.get("table") != "partial":
+        action = msg.get("action")
         for entry in msg.get("data", []):
+            size = entry.get("size",0)
             sym = entry.get("symbol")
-            if "bidPrice" in entry and "bidSize" in entry:
-                emit_tick(sym, "bid", entry["bidPrice"], entry["bidSize"])
-            if "askPrice" in entry and "askSize" in entry:
-                emit_tick(sym, "ask", entry["askPrice"], entry["askSize"])
+            orderID = entry.get("id")
+            if entry["side"] == "Buy":
+                emit_tick(sym, "bid", entry["price"], size, orderID, action)
+            if entry["side"] == "Sell":
+                emit_tick(sym, "ask", entry["price"], size, orderID, action)
 
 def on_open(ws):
     logging.info("🚀 Subscribing to BitMEX quote feed...")
     ws.send(json.dumps({
         "op": "subscribe",
-        "args": ["quote:XBTUSD", "quote:ETHUSD", "quote:SOLUSD"]
+        "args": ["orderBookL2_25:XBTUSD", "orderBookL2_25:ETHUSD", "orderBookL2_25:SOLUSD"]
     }))
 
 def on_error(ws, error):

@@ -48,3 +48,57 @@
     .sapi.metaReturn[`type`description!(98h;"Result of the call")],
     .sapi.metaMisc[enlist[`safe]!enlist 1b]
     ]
+
+.call.tableCountByDap:{[table;startTS;endTS;sym]
+    show "Starting .call.tableCountByDap from ",string .da.i.dapType;
+    wc:enlist(in;`sym;enlist sym);
+    tabCols:`dap`exchange!`dap`exchange;
+    aggClause:(enlist`x)!enlist(count;`i);
+     args:$[.da.i.dapType=`HDB;
+         `table`startTS`endTS`filter`groupBy`agg!((table);startTS;endTS;enlist(in;`sym;enlist sym);(enlist`date)!enlist`date;(enlist`x)!enlist(count;`i));
+         `table`startTS`endTS`filter`groupBy`agg!((table);startTS;endTS;enlist(in;`sym;enlist sym);0b;(enlist`x)!enlist(count;`i))
+         ];
+    //args:`table`startTS`endTS`filter`groupBy`agg!((table);startTS;endTS;enlist(in;`sym;enlist sym);0b;(enlist`x)!enlist(count;`i));
+    res:.kxi.selectTable args;
+    res:update dap:.da.i.dapType from res;
+    if[not `HDB=.dap.i.dapType;
+        res: update date:.z.d from res];
+    show 5 sublist res;
+    res
+    }
+
+
+.da.registerAPI[`.call.tableCountByDap;
+    .sapi.metaDescription["Get table count by DAP"],
+    .sapi.metaParam[`name`type`isReq`description!(`table;-11h;1b;"Table Name")],
+    .sapi.metaParam[`name`type`isReq`description!(`startTS;-12h;1b;"start time")],
+    .sapi.metaParam[`name`type`isReq`description!(`endTS;-12h;1b;"end time")],
+    .sapi.metaParam[`name`type`isReq`description!(`sym;desc -11 11h;1b;"sym")],
+    .sapi.metaReturn[`type`description!(98h;"Result of the call")],
+    .sapi.metaMisc[enlist[`safe]!enlist 1b]
+    ]
+
+
+.call.brokenCall:{[table;startTS;endTS;sym]
+    show "Starting .call.brokenCall from ",string .da.i.dapType;
+    wc:enlist(in;`sym;enlist sym);
+    tabCols:`dap`exchange!`dap`exchange;
+    aggClause:(enlist`x)!enlist(count;`i);
+    args:`table`startTS`endTS`filter`groupBy`agg!((table);startTS;endTS;wc;(enlist`timehh)!enlist(xbar;1;time.hh);(enlist`x)!enlist(count;`i));
+    res:.kxi.selectTable args;
+    res:update dap:.da.i.dapType from res;
+    res:update date:?[dap=`HDB;date;.z.d] from res;
+    show 5 sublist res;
+    res
+    }
+
+
+.da.registerAPI[`.call.brokenCall;
+    .sapi.metaDescription["Get table count by DAP"],
+    .sapi.metaParam[`name`type`isReq`description!(`table;-11h;1b;"Table Name")],
+    .sapi.metaParam[`name`type`isReq`description!(`startTS;-12h;1b;"start time")],
+    .sapi.metaParam[`name`type`isReq`description!(`endTS;-12h;1b;"end time")],
+    .sapi.metaParam[`name`type`isReq`description!(`sym;desc -11 11h;1b;"sym")],
+    .sapi.metaReturn[`type`description!(98h;"Result of the call")],
+    .sapi.metaMisc[enlist[`safe]!enlist 1b]
+    ]
