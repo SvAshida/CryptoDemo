@@ -55,14 +55,15 @@
     tabCols:`dap`exchange!`dap`exchange;
     aggClause:(enlist`x)!enlist(count;`i);
      args:$[.da.i.dapType=`HDB;
-         `table`startTS`endTS`filter`groupBy`agg!((table);startTS;endTS;enlist(in;`sym;enlist sym);(enlist`date)!enlist`date;(enlist`x)!enlist(count;`i));
-         `table`startTS`endTS`filter`groupBy`agg!((table);startTS;endTS;enlist(in;`sym;enlist sym);0b;(enlist`x)!enlist(count;`i))
+         `table`startTS`endTS`filter`groupBy`agg!((table);startTS;endTS;enlist(in;`sym;enlist sym);(`date`exchange`sym)!`date`exchange`sym;(enlist`x)!enlist(count;`i));
+         `table`startTS`endTS`filter`groupBy`agg!((table);startTS;endTS;enlist(in;`sym;enlist sym);(`exchange`sym)!`exchange`sym;(enlist`x)!enlist(count;`i))
          ];
     //args:`table`startTS`endTS`filter`groupBy`agg!((table);startTS;endTS;enlist(in;`sym;enlist sym);0b;(enlist`x)!enlist(count;`i));
     res:.kxi.selectTable args;
+    show 5 sublist res;
     res:update dap:.da.i.dapType from res;
-    if[not `HDB=.dap.i.dapType;
-        res: update date:.z.d from res];
+    if[not `HDB in first res`dap;
+        res:update date:.z.d from res];
     show 5 sublist res;
     res
     }
