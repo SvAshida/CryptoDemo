@@ -32,7 +32,6 @@ channel_map = {}
 
 def on_message(ws, message):
     msg = json.loads(message)
-
     if isinstance(msg, dict):
         if msg.get("event") == "subscribed" and msg.get("channel") == "book":
             chan_id = msg["chanId"]
@@ -60,16 +59,17 @@ def emit_tick(sym, entry):
     order_id, price, amount = entry
     side = "bid" if amount > 0 else "ask"
     action = "remove" if amount == 0 or price == 0 else "update"
-
     message = {
         "time": datetime.datetime.now(datetime.UTC).isoformat(timespec="microseconds").replace("+00:00", "Z"),
         "sym": sym[1:],  # Remove 't' prefix, e.g., BTCUSD
         "side": side,
         "price": price,
-        "size": abs(amount),
+        "size": abs(amount*price),
         "action": action,
+        "orderID": str(order_id),
         "exchange": "bitfinex"
     }
+    print(message)
     producer.send("bitfinex.quotes", value=message)
 
 def on_open(ws):
