@@ -68,8 +68,43 @@ tables:
       - name: action
         description: Update type (update or remove)
         type: symbol
+      - name: orderID
+        description: unique orderID for maintaining current prices
+        type: 
       - name: exchange
         description: Name of exchange from which quote data has been sourced
+        type: symbol
+  book:
+    description: Full book snapshot per symbol (aggregated view)
+    type: partitioned
+    blockSize: 10000
+    prtnCol: time
+    sortColsOrd: sym
+    sortColsDisk: sym
+    columns:
+      - name: time
+        description: Snapshot time (when the book was recorded)
+        type: timestamp
+      - name: sym
+        description: Symbol (e.g. BTCUSD)
+        type: symbol
+        attrMem: grouped
+        attrDisk: parted
+        attrOrd: parted
+      - name: bids
+        description: Array of bid prices
+        type: 
+      - name: bidsizes
+        description: Array of bid sizes at each price level
+        type: 
+      - name: asks
+        description: Array of ask prices
+        type: 
+      - name: asksizes
+        description: Array of ask sizes at each price level
+        type: 
+      - name: exchange
+        description: Source exchange of the order book snapshot
         type: symbol
 bus:
   stream:
