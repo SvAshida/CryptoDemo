@@ -22,7 +22,7 @@ logging.basicConfig(
 )
 
 producer = KafkaProducer(
-    bootstrap_servers='localhost:29092',
+    bootstrap_servers='kafka:9092',
     value_serializer=lambda v: json.dumps(v).encode('utf-8')
 )
 
@@ -49,7 +49,6 @@ def on_message(ws, message):
                     "exchange": "bitmex"
                 }
                 producer.send("bitmex.trades", value=data)
-                print(data)
                 logging.info(f"📈 {data}")
     except Exception as e:
         logging.error(f"❌ Error: {e}")

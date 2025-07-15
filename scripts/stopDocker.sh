@@ -5,6 +5,7 @@ ENV_FILE=${PROJECT_ROOT}/docker/.env
 SHARED_FILE=${PROJECT_ROOT}/docker/compose.yaml
 BITMEX_FILE=${PROJECT_ROOT}/docker/compose-bitmex.yaml
 BITFINEX_FILE=${PROJECT_ROOT}/docker/compose-bitfinex.yaml
+FEEDS_FILE=${PROJECT_ROOT}/docker/compose-feeds.yaml
 
 MODE="${1:-all}"
 
@@ -15,6 +16,7 @@ case "$MODE" in
     docker compose -f "$SHARED_FILE" down -v
     docker compose -f "$BITMEX_FILE" down -v
     docker compose -f "$BITFINEX_FILE" down -v
+    docker compose -f "$FEEDS_FILE" down -v
     ;;
   framework)
     docker compose -f "$SHARED_FILE" down -v
@@ -25,9 +27,12 @@ case "$MODE" in
   bitfinex)
     docker compose -f "$BITFINEX_FILE" down -v
     ;;
+  feeds)
+    docker compose -f "$FEEDS_FILE" down -v
+    ;;
   *)
     echo "❌ Invalid option: $MODE"
-    echo "Usage: $0 [all|framework|bitmex|bitfinex]"
+    echo "Usage: $0 [all|framework|bitmex|bitfinex|feeds]"
     exit 1
     ;;
 esac

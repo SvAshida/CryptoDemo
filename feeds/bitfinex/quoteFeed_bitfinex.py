@@ -20,7 +20,7 @@ logging.basicConfig(
 )
 
 producer = KafkaProducer(
-    bootstrap_servers='localhost:29092',
+    bootstrap_servers='kafka:9092',
     value_serializer=lambda v: json.dumps(v).encode('utf-8')
 )
 
@@ -69,7 +69,6 @@ def emit_tick(sym, entry):
         "orderID": str(order_id),
         "exchange": "bitfinex"
     }
-    print(message)
     producer.send("bitfinex.quotes", value=message)
 
 def on_open(ws):
