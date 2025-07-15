@@ -2,7 +2,6 @@
 
 import websocket
 import json
-import logging
 from kafka import KafkaProducer
 import datetime
 import os
@@ -10,16 +9,6 @@ import pathlib
 
 SCRIPT_DIR = pathlib.Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent.parent
-LOG_DIR = PROJECT_ROOT / "logs"
-LOG_DIR.mkdir(exist_ok=True)
-
-log_file = LOG_DIR / "trade_producer_bitmex.log"
-
-logging.basicConfig(
-    filename=str(log_file),
-    level=logging.INFO,
-    format='%(asctime)s %(levelname)s: %(message)s'
-)
 
 producer = KafkaProducer(
     bootstrap_servers='kafka:9092',
@@ -29,10 +18,10 @@ producer = KafkaProducer(
 symbols = ["XBTUSD", "ETHUSD", "SOLUSD"]
 
 def on_open(ws):
-    logging.info("🔌 WebSocket connected")
+    print("🔌 WebSocket connected")
     for sym in symbols:
         ws.send(json.dumps({"op": "subscribe", "args": [f"trade:{sym}"]}))
-        logging.info(f"📡 Subscribed to trade:{sym}")
+        print(f"📡 Subscribed to trade:{sym}")
 
 def on_message(ws, message):
     try:
@@ -49,16 +38,15 @@ def on_message(ws, message):
                     "exchange": "bitmex"
                 }
                 producer.send("bitmex.trades", value=data)
-                logging.info(f"📈 {data}")
     except Exception as e:
-        logging.error(f"❌ Error: {e}")
+        print(f"❌ Error: {e}")
 
 
 def on_error(ws, error):
-    logging.error(f"❗ WebSocket error: {error}")
+    print(f"❗ WebSocket error: {error}")
 
 def on_close(ws, code, msg):
-    logging.warning("❎ WebSocket connection closed")
+    print("❎ WebSocket connection closed")
 
 # --- Main ---
 if __name__ == "__main__":

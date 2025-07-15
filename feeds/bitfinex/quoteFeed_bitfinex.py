@@ -2,22 +2,11 @@ import websocket
 import json
 import datetime
 from kafka import KafkaProducer
-import logging
 import os
 import pathlib
 
 SCRIPT_DIR = pathlib.Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent.parent
-LOG_DIR = PROJECT_ROOT / "logs"
-LOG_DIR.mkdir(exist_ok=True)
-
-log_file = LOG_DIR / "quote_producer_bitfinex.log"
-
-logging.basicConfig(
-    filename=str(log_file),
-    level=logging.INFO,
-    format='%(asctime)s %(levelname)s: %(message)s'
-)
 
 producer = KafkaProducer(
     bootstrap_servers='kafka:9092',
@@ -37,7 +26,7 @@ def on_message(ws, message):
             chan_id = msg["chanId"]
             symbol = msg["symbol"]
             channel_map[chan_id] = symbol
-            logging.info("✅ Subscribed: {symbol} (chanId={chan_id})")
+            print("✅ Subscribed: {symbol} (chanId={chan_id})")
         return
 
     if isinstance(msg, list):
@@ -82,10 +71,10 @@ def on_open(ws):
         }))
 
 def on_error(ws, error):
-    logging.info("❌ Error:", error)
+    print("❌ Error:", error)
 
 def on_close(ws, code, msg):
-    logging.info("🔌 Closed:", code, msg)
+    print("🔌 Closed:", code, msg)
 
 if __name__ == "__main__":
     websocket.WebSocketApp(

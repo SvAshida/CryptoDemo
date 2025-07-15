@@ -1,6 +1,5 @@
 import websocket
 import json
-import logging
 from kafka import KafkaProducer
 import datetime
 import os
@@ -8,16 +7,6 @@ import pathlib
 
 SCRIPT_DIR = pathlib.Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent.parent
-LOG_DIR = PROJECT_ROOT / "logs"
-LOG_DIR.mkdir(exist_ok=True)
-
-log_file = LOG_DIR / "trade_producer_bitfinex.log"
-
-logging.basicConfig(
-    filename=str(log_file),
-    level=logging.INFO,
-    format='%(asctime)s %(levelname)s: %(message)s'
-)
 
 producer = KafkaProducer(
     bootstrap_servers='kafka:9092',
@@ -40,7 +29,7 @@ def on_message(ws, message):
         msg = json.loads(message)
         if isinstance(msg, dict) and msg.get("event") == "subscribed":
             chan_map[msg["chanId"]] = msg["symbol"]
-            logging.info(f"✅ Subscribed to {msg.get("symbol")} on channel {msg.get("chanId")}")
+            print(f"✅ Subscribed to {msg.get("symbol")} on channel {msg.get("chanId")}")
         elif isinstance(msg, list) and msg[1] == "te":  # trade execution
             chan_id, _, trade = msg
             sym = chan_map.get(chan_id, "UNKNOWN")
@@ -55,13 +44,13 @@ def on_message(ws, message):
             }
             producer.send("bitfinex.trades", value=data)
     except Exception as e:
-        logging.error(f"Error: {e}")
+        print(f"Error: {e}")
 
 def on_error(ws, error):
-    logging.error(f"WebSocket error: {error}")
+    print(f"WebSocket error: {error}")
 
 def on_close(ws, close_status_code, close_msg):
-    logging.info("WebSocket closed.")
+    print("WebSocket closed.")
 
 if __name__ == "__main__":
     websocket.WebSocketApp(

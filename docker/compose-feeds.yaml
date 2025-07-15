@@ -2,9 +2,9 @@ networks:
   kx-net:
     external: true
 services:
-  bitfinex-feeds:
+  bitfinex-quote-feed:
     image: python:3.12-slim
-    container_name: bitfinex_feeds
+    container_name: bitfinex_quote_feed
     restart: always
     volumes:
       - ../feeds/bitfinex:/app
@@ -15,10 +15,22 @@ services:
       - kx-net
     command: >
       sh -c "pip install --no-cache-dir -r requirements.txt && python quoteFeed_bitfinex.py"
-
-  bitmex-feeds:
+  bitfinex-trade-feed:
     image: python:3.12-slim
-    container_name: bitmex_feeds
+    container_name: bitfinex_trade_feed
+    restart: always
+    volumes:
+      - ../feeds/bitfinex:/app
+      - ../feeds/bitfinex/requirements.txt:/app/requirements.txt
+      - ../logs:/app/logs
+    working_dir: /app
+    networks: 
+      - kx-net
+    command: >
+      sh -c "pip install --no-cache-dir -r requirements.txt && python tradeFeed_bitfinex.py"
+  bitmex-quote-feed:
+    image: python:3.12-slim
+    container_name: bitmex_quote_feed
     restart: always
     volumes:
       - ../feeds/bitmex:/app
@@ -29,3 +41,16 @@ services:
       - kx-net
     command: >
       sh -c "pip install --no-cache-dir -r requirements.txt && python quoteFeed_bitmex.py"
+  bitmex-trade-feed:
+    image: python:3.12-slim
+    container_name: bitmex_trade_feed
+    restart: always
+    volumes:
+      - ../feeds/bitmex:/app
+      - ../feeds/bitmex/requirements.txt:/app/requirements.txt
+      - ../logs:/app/logs
+    working_dir: /app
+    networks: 
+      - kx-net
+    command: >
+      sh -c "pip install --no-cache-dir -r requirements.txt && python tradeFeed_bitmex.py"
