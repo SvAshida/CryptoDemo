@@ -2,7 +2,7 @@
   "id": "31ad15fd-f656-0f84-67bc-f809c53c56dd",
   "name": "My New Dashboard",
   "creationDate": "Thu, 10 Jul 2025 03:20:02 GMT",
-  "lastUpdateDate": "Tue, 15 Jul 2025 03:17:13 GMT",
+  "lastUpdateDate": "Tue, 15 Jul 2025 05:48:05 GMT",
   "thumb": null,
   "screenDetails": [
     {
@@ -432,7 +432,7 @@
                           "RadiusData": "Fixed Size",
                           "RadiusScaling": {
                             "_dashboardsType": "viewstate",
-                            "value": "scaling"
+                            "value": "utility/scaling"
                           },
                           "ScaleOnZoom": true,
                           "Icon": "fa-close"
@@ -556,7 +556,7 @@
                           "RadiusData": "amount",
                           "RadiusScaling": {
                             "_dashboardsType": "viewstate",
-                            "value": "scaling"
+                            "value": "utility/scaling"
                           },
                           "ScaleOnZoom": true,
                           "Icon": "fa-close"
@@ -759,7 +759,9 @@
                             {
                               "type": "#452481"
                             }
-                          ]
+                          ],
+                          "DashGap": 1,
+                          "DashWidth": 1
                         },
                         "Bubbles": {
                           "Opacity": 80,
@@ -1268,30 +1270,45 @@
                         "options": {
                           "version": "v2.5.1",
                           "datagridPossibleColumns": [
-                            "Property",
-                            "Value"
+                            "exchange",
+                            "sym",
+                            "dap",
+                            "date",
+                            "x"
                           ],
                           "datagridPossibleHeaderColumns": [
                             "none"
                           ],
                           "datagridPossibleColumnsWithItself": [
                             "<this>",
-                            "Property",
-                            "Value"
+                            "exchange",
+                            "sym",
+                            "dap",
+                            "date",
+                            "x"
                           ],
                           "selectedColumnPossibleValues": [
-                            "Property",
-                            "Value"
+                            "exchange",
+                            "sym",
+                            "dap",
+                            "date",
+                            "x"
                           ],
                           "highlightTargetPossibleValues": [
-                            "Property",
-                            "Value",
+                            "exchange",
+                            "sym",
+                            "dap",
+                            "date",
+                            "x",
                             "*"
                           ],
                           "sortingPossibleValues": [
                             "",
-                            "Property",
-                            "Value"
+                            "exchange",
+                            "sym",
+                            "dap",
+                            "date",
+                            "x"
                           ],
                           "footerPossibleValues": [
                             "None",
@@ -1433,42 +1450,17 @@
                           },
                           "ColumnsConfiguration": [
                             {
-                              "Field": "exchange",
-                              "DisplayName": "exchange",
+                              "Field": "Property",
+                              "DisplayName": "Property",
                               "WidthWeight": 100,
                               "MinWidthAbsolute": 100,
                               "TextAlign": "left"
                             },
                             {
-                              "Field": "sym",
-                              "DisplayName": "sym",
+                              "Field": "Value",
+                              "DisplayName": "Value",
                               "WidthWeight": 100,
-                              "MinWidthAbsolute": 100,
-                              "TextAlign": "left"
-                            },
-                            {
-                              "Field": "dap",
-                              "DisplayName": "dap",
-                              "WidthWeight": 100,
-                              "MinWidthAbsolute": 100,
-                              "TextAlign": "left"
-                            },
-                            {
-                              "Field": "date",
-                              "DisplayName": "date",
-                              "Format": "Date",
-                              "WidthWeight": 80,
-                              "MinWidthAbsolute": 80,
-                              "TextAlign": "right"
-                            },
-                            {
-                              "Field": "x",
-                              "DisplayName": "x",
-                              "Format": "Formatted Number",
-                              "Precision": 0,
-                              "WidthWeight": 165,
-                              "MinWidthAbsolute": 165,
-                              "TextAlign": "right"
+                              "MinWidthAbsolute": 100
                             }
                           ],
                           "Alignment": {
@@ -1541,28 +1533,20 @@
                 "FloatReset": true,
                 "ViewStates": [
                   {
-                    "PathEnc": "startTime",
+                    "PathEnc": "utility%2FstartTime",
                     "DisplayName": "Start Time",
                     "HideParameter": false,
                     "Tooltip": "",
                     "AllowNulls": true,
-                    "FieldType": {
-                      "_Type": "Default",
-                      "Data": "",
-                      "DataSourceMapping": {},
-                      "Items": [],
-                      "DropdownPossibleValues": []
-                    }
+                    "FieldType": {}
                   },
                   {
-                    "PathEnc": "endTime",
+                    "PathEnc": "utility%2FendTime",
                     "DisplayName": "End Time",
                     "HideParameter": false,
                     "Tooltip": "",
                     "AllowNulls": true,
-                    "FieldType": {
-                      "_Type": "Default"
-                    }
+                    "FieldType": {}
                   }
                 ],
                 "Actions": []
@@ -1634,7 +1618,7 @@
                 "Data": "",
                 "SelectedValue": {
                   "_dashboardsType": "viewstate",
-                  "value": "current"
+                  "value": "utility/current"
                 },
                 "ComponentName": "SelectionControls",
                 "DataSourceMapping": {
@@ -1717,7 +1701,7 @@
                 "Name": "",
                 "SelectedValue": {
                   "_dashboardsType": "viewstate",
-                  "value": "window"
+                  "value": "utility/window"
                 },
                 "ComponentName": "Dropdown",
                 "DataSourceMapping": {
@@ -1870,11 +1854,6 @@
       "_default": "",
       "_type": "symbol"
     },
-    "scaling": {
-      "_viewType": true,
-      "_type": "float",
-      "_default": ""
-    },
     "exchange": {
       "_viewType": true,
       "_default": "",
@@ -1885,50 +1864,70 @@
       "_type": "float",
       "_default": 5
     },
-    "startTime": {
-      "_viewType": true,
-      "_type": "timespan",
-      "_default": "1970-01-01T00:00:00.000Z"
-    },
-    "endTime": {
-      "_viewType": true,
-      "_type": "timespan",
-      "_default": "1970-01-01T00:00:00.000Z"
-    },
-    "window": {
-      "_viewType": true,
-      "_type": "float",
-      "_default": ""
-    },
-    "current": {
-      "_viewType": true,
-      "_type": "boolean",
-      "_default": true
-    },
     "accordionState": {
       "_viewType": true,
       "_type": "boolean",
       "_default": false
     },
-    "bucket": {
-      "_viewType": true,
-      "_type": "float",
-      "_default": ""
+    "utility": {
+      "bucket": {
+        "_viewType": true,
+        "_type": "float",
+        "_default": ""
+      },
+      "endWindow": {
+        "_viewType": true,
+        "_type": "timestamp",
+        "_default": "2025-07-15T02:46:07.824000000Z"
+      },
+      "endTime": {
+        "_viewType": true,
+        "_type": "timespan",
+        "_default": "1970-01-01T00:00:00.000Z"
+      },
+      "startTime": {
+        "_viewType": true,
+        "_type": "timespan",
+        "_default": "1970-01-01T00:00:00.000Z"
+      },
+      "startWindow": {
+        "_viewType": true,
+        "_type": "timestamp",
+        "_default": "2025-07-15T02:45:57.567000000Z"
+      },
+      "window": {
+        "_viewType": true,
+        "_type": "float",
+        "_default": ""
+      },
+      "current": {
+        "_viewType": true,
+        "_type": "boolean",
+        "_default": true
+      },
+      "polling": {
+        "_viewType": true,
+        "_type": "float",
+        "_default": ""
+      },
+      "scaling": {
+        "_viewType": true,
+        "_type": "float",
+        "_default": ""
+      }
     },
-    "polling": {
-      "_viewType": true,
-      "_type": "float",
-      "_default": ""
-    },
-    "startWindow": {
+    "New node": {},
+    "dataCountStart": {
       "_viewType": true,
       "_type": "timestamp",
-      "_default": "2025-07-15T02:45:57.567000000Z"
+      "_default": "NOW-7",
+      "_rolling": true
     },
-    "endWindow": {
+    "dataCountEnd": {
       "_viewType": true,
       "_type": "timestamp",
-      "_default": "2025-07-15T02:46:07.824000000Z"
+      "_default": "NOW",
+      "_rolling": true
     }
   },
   "data": {
@@ -2013,7 +2012,7 @@
       "_subscriptionType": "polling",
       "_subscriptionInterval": {
         "_dashboardsType": "viewstate",
-        "value": "bucket"
+        "value": "utility/bucket"
       },
       "_layout": [
         {
@@ -2067,7 +2066,7 @@
           "name": "current",
           "index": 3,
           "type": "boolean",
-          "value": "<%current%>",
+          "value": "<%utility/current%>",
           "IsKdbParam": true,
           "isViewState": true
         },
@@ -2075,7 +2074,7 @@
           "name": "startTime",
           "index": 4,
           "type": "timestamp",
-          "value": "<%startWindow%>",
+          "value": "<%utility/startWindow%>",
           "IsKdbParam": true,
           "isViewState": true
         },
@@ -2083,7 +2082,7 @@
           "name": "endTime",
           "index": 5,
           "type": "timestamp",
-          "value": "<%endWindow%>",
+          "value": "<%utility/endWindow%>",
           "IsKdbParam": true,
           "isViewState": true
         },
@@ -2091,7 +2090,7 @@
           "name": "window",
           "index": 6,
           "type": "float",
-          "value": "<%window%>",
+          "value": "<%utility/window%>",
           "IsKdbParam": true,
           "isViewState": true
         }
@@ -2125,7 +2124,7 @@
       "_subscriptionType": "polling",
       "_subscriptionInterval": {
         "_dashboardsType": "viewstate",
-        "value": "bucket"
+        "value": "utility/bucket"
       },
       "_layout": [
         {
@@ -2179,7 +2178,7 @@
           "name": "current",
           "index": 3,
           "type": "boolean",
-          "value": "<%current%>",
+          "value": "<%utility/current%>",
           "IsKdbParam": true,
           "isViewState": true
         },
@@ -2187,7 +2186,7 @@
           "name": "startTime",
           "index": 4,
           "type": "timestamp",
-          "value": "<%startWindow%>",
+          "value": "<%utility/startWindow%>",
           "IsKdbParam": true,
           "isViewState": true
         },
@@ -2195,7 +2194,7 @@
           "name": "endTime",
           "index": 5,
           "type": "timestamp",
-          "value": "<%endWindow%>",
+          "value": "<%utility/endWindow%>",
           "IsKdbParam": true,
           "isViewState": true
         },
@@ -2203,7 +2202,7 @@
           "name": "window",
           "index": 6,
           "type": "float",
-          "value": "<%window%>",
+          "value": "<%utility/window%>",
           "IsKdbParam": true,
           "isViewState": true
         }
@@ -2303,7 +2302,7 @@
       "_subscriptionType": "polling",
       "_subscriptionInterval": {
         "_dashboardsType": "viewstate",
-        "value": "polling"
+        "value": "utility/polling"
       },
       "_layout": [
         {
@@ -2349,7 +2348,7 @@
           "name": "current",
           "index": 2,
           "type": "boolean",
-          "value": "<%current%>",
+          "value": "<%utility/current%>",
           "IsKdbParam": true,
           "isViewState": true
         },
@@ -2357,7 +2356,7 @@
           "name": "startTime",
           "index": 3,
           "type": "timestamp",
-          "value": "<%startWindow%>",
+          "value": "<%utility/startWindow%>",
           "IsKdbParam": true,
           "isViewState": true
         },
@@ -2365,7 +2364,7 @@
           "name": "endTime",
           "index": 4,
           "type": "timestamp",
-          "value": "<%endWindow%>",
+          "value": "<%utility/endWindow%>",
           "IsKdbParam": true,
           "isViewState": true
         },
@@ -2373,7 +2372,7 @@
           "name": "window",
           "index": 5,
           "type": "float",
-          "value": "<%window%>",
+          "value": "<%utility/window%>",
           "IsKdbParam": true,
           "isViewState": true
         },
@@ -2381,7 +2380,7 @@
           "name": "bucket",
           "index": 6,
           "type": "float",
-          "value": "<%bucket%>",
+          "value": "<%utility/bucket%>",
           "IsKdbParam": true,
           "isViewState": true
         }
@@ -2483,7 +2482,7 @@
         "value": "sym"
       },
       "_maxRows": "2000000",
-      "_subscriptionType": "static",
+      "_subscriptionType": "polling",
       "_subscriptionInterval": 5,
       "_layout": [
         {
@@ -2525,7 +2524,7 @@
           "type": "timestamp",
           "description": "",
           "required": false,
-          "value": "<%startWindow%>",
+          "value": "<%dataCountStart%>",
           "isViewState": true
         },
         {
@@ -2534,7 +2533,7 @@
           "type": "timestamp",
           "description": "",
           "required": false,
-          "value": "<%endWindow%>",
+          "value": "<%dataCountEnd%>",
           "isViewState": true
         },
         {
@@ -2565,7 +2564,7 @@
           "type": "timestamp",
           "description": "",
           "required": false,
-          "value": "<%startWindow%>",
+          "value": "<%dataCountStart%>",
           "isViewState": true
         },
         {
@@ -2574,7 +2573,7 @@
           "type": "timestamp",
           "description": "",
           "required": false,
-          "value": "<%endWindow%>",
+          "value": "<%dataCountEnd%>",
           "isViewState": true
         },
         {
@@ -2618,7 +2617,7 @@
       "_subscriptionType": "polling",
       "_subscriptionInterval": {
         "_dashboardsType": "viewstate",
-        "value": "polling"
+        "value": "utility/polling"
       },
       "_layout": [
         {
@@ -2672,7 +2671,7 @@
           "name": "current",
           "index": 3,
           "type": "boolean",
-          "value": "<%current%>",
+          "value": "<%utility/current%>",
           "IsKdbParam": true,
           "isViewState": true
         },
@@ -2680,7 +2679,7 @@
           "name": "startTime",
           "index": 4,
           "type": "timestamp",
-          "value": "<%startWindow%>",
+          "value": "<%utility/startWindow%>",
           "IsKdbParam": true,
           "isViewState": true
         },
@@ -2688,7 +2687,7 @@
           "name": "endTime",
           "index": 5,
           "type": "timestamp",
-          "value": "<%endWindow%>",
+          "value": "<%utility/endWindow%>",
           "IsKdbParam": true,
           "isViewState": true
         },
@@ -2696,7 +2695,7 @@
           "name": "window",
           "index": 6,
           "type": "float",
-          "value": "<%window%>",
+          "value": "<%utility/window%>",
           "IsKdbParam": true,
           "isViewState": true
         },
@@ -2704,7 +2703,7 @@
           "name": "bucket",
           "index": 7,
           "type": "float",
-          "value": "<%bucket%>",
+          "value": "<%utility/bucket%>",
           "IsKdbParam": true,
           "isViewState": true
         }
@@ -2734,7 +2733,7 @@
       "_subscriptionType": "polling",
       "_subscriptionInterval": {
         "_dashboardsType": "viewstate",
-        "value": "polling"
+        "value": "utility/polling"
       },
       "_layout": [
         {
@@ -2788,7 +2787,7 @@
           "name": "current",
           "index": 3,
           "type": "boolean",
-          "value": "<%current%>",
+          "value": "<%utility/current%>",
           "IsKdbParam": true,
           "isViewState": true
         },
@@ -2796,7 +2795,7 @@
           "name": "startTime",
           "index": 4,
           "type": "timestamp",
-          "value": "<%startWindow%>",
+          "value": "<%utility/startWindow%>",
           "IsKdbParam": true,
           "isViewState": true
         },
@@ -2804,7 +2803,7 @@
           "name": "endTime",
           "index": 5,
           "type": "timestamp",
-          "value": "<%endWindow%>",
+          "value": "<%utility/endWindow%>",
           "IsKdbParam": true,
           "isViewState": true
         },
@@ -2812,7 +2811,7 @@
           "name": "window",
           "index": 6,
           "type": "float",
-          "value": "<%window%>",
+          "value": "<%utility/window%>",
           "IsKdbParam": true,
           "isViewState": true
         },
@@ -2820,7 +2819,7 @@
           "name": "bucket",
           "index": 7,
           "type": "float",
-          "value": "<%bucket%>",
+          "value": "<%utility/bucket%>",
           "IsKdbParam": true,
           "isViewState": true
         }
@@ -2834,9 +2833,8 @@
       "_serverPaging": false
     },
     "customScaling": {
-      "_pagingType": "NONE",
-      "_autoExecute": true,
       "_autoExec": true,
+      "_autoExecute": true,
       "_columns": [
         "Property",
         "Value"
@@ -2849,7 +2847,7 @@
         "mappings": {
           "scaling": {
             "_dashboardsType": "viewstate",
-            "value": "scaling"
+            "value": "utility/scaling"
           }
         },
         "value": "Value"
@@ -2875,7 +2873,7 @@
           "weight": 0
         },
         {
-          "isExpanded": false,
+          "isExpanded": true,
           "weight": 2
         }
       ],
@@ -2903,19 +2901,16 @@
       "_autoExecute": true,
       "_autoExec": true,
       "_columns": [
-        "exchange",
-        "sym",
-        "dap",
-        "date",
-        "x"
+        "Property",
+        "Value"
       ],
       "_dataType": "analytic",
       "_dataSource": "kdb",
       "_connection": "crypto",
       "_mappings": {
-        "key": "exchange",
+        "key": "Property",
         "mappings": {},
-        "value": "sym"
+        "value": "Value"
       },
       "_maxRows": "2000000",
       "_subscriptionType": "static",
@@ -2960,8 +2955,9 @@
           "type": "timestamp",
           "description": "",
           "required": false,
-          "value": "<%startWindow%>",
-          "isViewState": true
+          "value": "<%dataCountStart%>",
+          "isViewState": true,
+          "useRollingSyntax": false
         },
         {
           "id": "ed",
@@ -2969,8 +2965,9 @@
           "type": "timestamp",
           "description": "",
           "required": false,
-          "value": "<%endWindow%>",
-          "isViewState": true
+          "value": "<%dataCountEnd%>",
+          "isViewState": true,
+          "useRollingSyntax": false
         },
         {
           "id": "sym",
@@ -3000,8 +2997,9 @@
           "type": "timestamp",
           "description": "",
           "required": false,
-          "value": "<%startWindow%>",
-          "isViewState": true
+          "value": "<%dataCountStart%>",
+          "isViewState": true,
+          "useRollingSyntax": false
         },
         {
           "id": "ed",
@@ -3009,8 +3007,9 @@
           "type": "timestamp",
           "description": "",
           "required": false,
-          "value": "<%endWindow%>",
-          "isViewState": true
+          "value": "<%dataCountEnd%>",
+          "isViewState": true,
+          "useRollingSyntax": false
         },
         {
           "id": "sym",
@@ -3071,7 +3070,7 @@
           "name": "startTime",
           "index": 0,
           "type": "timespan",
-          "value": "<%startTime%>",
+          "value": "<%utility/startTime%>",
           "IsKdbParam": true,
           "isViewState": true
         },
@@ -3079,7 +3078,7 @@
           "name": "endTime",
           "index": 1,
           "type": "timespan",
-          "value": "<%endTime%>",
+          "value": "<%utility/endTime%>",
           "IsKdbParam": true,
           "isViewState": true
         }
@@ -3144,7 +3143,7 @@
           "name": "current",
           "index": 0,
           "type": "boolean",
-          "value": "<%current%>",
+          "value": "<%utility/current%>",
           "IsKdbParam": true,
           "isViewState": true
         }
@@ -3209,9 +3208,8 @@
       "_serverPaging": false
     },
     "bucketing": {
-      "_pagingType": "NONE",
-      "_autoExecute": true,
       "_autoExec": true,
+      "_autoExecute": true,
       "_columns": [
         "Property",
         "Value"
@@ -3224,11 +3222,11 @@
         "mappings": {
           "bucket": {
             "_dashboardsType": "viewstate",
-            "value": "bucket"
+            "value": "utility/bucket"
           },
           "polling": {
             "_dashboardsType": "viewstate",
-            "value": "polling"
+            "value": "utility/polling"
           }
         },
         "value": "Value"
@@ -3264,7 +3262,7 @@
           "name": "current",
           "index": 0,
           "type": "boolean",
-          "value": "<%current%>",
+          "value": "<%utility/current%>",
           "IsKdbParam": true,
           "isViewState": true
         },
@@ -3272,7 +3270,7 @@
           "name": "window",
           "index": 1,
           "type": "float",
-          "value": "<%window%>",
+          "value": "<%utility/window%>",
           "IsKdbParam": true,
           "isViewState": true
         },
@@ -3280,7 +3278,7 @@
           "name": "startTime",
           "index": 2,
           "type": "timespan",
-          "value": "<%startTime%>",
+          "value": "<%utility/startTime%>",
           "IsKdbParam": true,
           "isViewState": true
         },
@@ -3288,7 +3286,7 @@
           "name": "endTime",
           "index": 3,
           "type": "timespan",
-          "value": "<%endTime%>",
+          "value": "<%utility/endTime%>",
           "IsKdbParam": true,
           "isViewState": true
         }
@@ -3302,9 +3300,8 @@
       "_serverPaging": false
     },
     "timestampWindows": {
-      "_pagingType": "NONE",
-      "_autoExecute": true,
       "_autoExec": true,
+      "_autoExecute": true,
       "_columns": [
         "Property",
         "Value"
@@ -3317,11 +3314,11 @@
         "mappings": {
           "startWindow": {
             "_dashboardsType": "viewstate",
-            "value": "startWindow"
+            "value": "utility/startWindow"
           },
           "endWindow": {
             "_dashboardsType": "viewstate",
-            "value": "endWindow"
+            "value": "utility/endWindow"
           }
         },
         "value": "Value"
@@ -3357,7 +3354,7 @@
           "name": "startTime",
           "index": 0,
           "type": "timespan",
-          "value": "<%startTime%>",
+          "value": "<%utility/startTime%>",
           "IsKdbParam": true,
           "isViewState": true
         },
@@ -3365,7 +3362,7 @@
           "name": "endTime",
           "index": 1,
           "type": "timespan",
-          "value": "<%endTime%>",
+          "value": "<%utility/endTime%>",
           "IsKdbParam": true,
           "isViewState": true
         }
