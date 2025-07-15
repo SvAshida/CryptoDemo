@@ -51,12 +51,11 @@
 
 .call.tableCountByDap:{[table;startTS;endTS;sym]
     show "Starting .call.tableCountByDap from ",string .da.i.dapType;
-    wc:enlist(in;`sym;enlist sym);
-    tabCols:`dap`exchange!`dap`exchange;
+    wc:$[null sym;();wc:enlist(in;`sym;enlist sym)];
     aggClause:(enlist`x)!enlist(count;`i);
      args:$[.da.i.dapType=`HDB;
-         `table`startTS`endTS`filter`groupBy`agg!((table);startTS;endTS;enlist(in;`sym;enlist sym);(`date`exchange`sym)!`date`exchange`sym;(enlist`x)!enlist(count;`i));
-         `table`startTS`endTS`filter`groupBy`agg!((table);startTS;endTS;enlist(in;`sym;enlist sym);(`exchange`sym)!`exchange`sym;(enlist`x)!enlist(count;`i))
+         `table`startTS`endTS`filter`groupBy`agg!((table);startTS;endTS;wc;(`date`exchange`sym)!`date`exchange`sym;(enlist`x)!enlist(count;`i));
+         `table`startTS`endTS`filter`groupBy`agg!((table);startTS;endTS;wc;(`exchange`sym)!`exchange`sym;(enlist`x)!enlist(count;`i))
          ];
     //args:`table`startTS`endTS`filter`groupBy`agg!((table);startTS;endTS;enlist(in;`sym;enlist sym);0b;(enlist`x)!enlist(count;`i));
     res:.kxi.selectTable args;
@@ -65,7 +64,7 @@
     if[not `HDB in first res`dap;
         res:update date:.z.d from res];
     show 5 sublist res;
-    res
+    4! `exchange`sym`dap`date`x xcols 0! res
     }
 
 
@@ -85,7 +84,7 @@
     wc:enlist(in;`sym;enlist sym);
     tabCols:`dap`exchange!`dap`exchange;
     aggClause:(enlist`x)!enlist(count;`i);
-    args:`table`startTS`endTS`filter`groupBy`agg!((table);startTS;endTS;wc;(enlist`timehh)!enlist(xbar;1;time.hh);(enlist`x)!enlist(count;`i));
+    args:`table`startTS`endTS`filter`groupBy`agg!((table);startTS;endTS;wc;(enlist`timehh)!enlist(xbar;0D01:00:00;time);(enlist`x)!enlist(count;`i));
     res:.kxi.selectTable args;
     res:update dap:.da.i.dapType from res;
     res:update date:?[dap=`HDB;date;.z.d] from res;

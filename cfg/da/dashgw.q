@@ -15,3 +15,15 @@ queryData:{[tab;sd;ed;sym;exchange]
         last tab;
         first tab]
     }
+
+quoteByDaps:{[tab;sd;ed;sym]
+    args: (!) . flip (
+        (`table   ; tab);
+        (`startTS ; sd);
+        (`endTS   ; ed);
+        (`sym; sym)
+        );
+    $[count last tab: gw(`.call.tableCountByDap;args;`;()!());
+        last tab;
+        first tab]
+    }
