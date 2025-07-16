@@ -6,9 +6,19 @@ from kafka import KafkaProducer
 import datetime
 import os
 import pathlib
+import logging
+import sys
 
 SCRIPT_DIR = pathlib.Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent.parent
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s %(levelname)s: %(message)s',
+    handlers=[
+        logging.StreamHandler(sys.stdout)  # <--- important
+    ]
+)
 
 producer = KafkaProducer(
     bootstrap_servers='kafka:9092',
@@ -18,10 +28,10 @@ producer = KafkaProducer(
 symbols = ["XBTUSD", "ETHUSD", "SOLUSD"]
 
 def on_open(ws):
-    print("🔌 WebSocket connected")
+    logging.info("🔌 WebSocket connected")
     for sym in symbols:
         ws.send(json.dumps({"op": "subscribe", "args": [f"trade:{sym}"]}))
-        print(f"📡 Subscribed to trade:{sym}")
+        logging.info(f"📡 Subscribed to trade:{sym}")
 
 def on_message(ws, message):
     try:
@@ -39,14 +49,14 @@ def on_message(ws, message):
                 }
                 producer.send("bitmex.trades", value=data)
     except Exception as e:
-        print(f"❌ Error: {e}")
+        logging.info(f"❌ Error: {e}")
 
 
 def on_error(ws, error):
-    print(f"❗ WebSocket error: {error}")
+    logging.info(f"❗ WebSocket error: {error}")
 
 def on_close(ws, code, msg):
-    print("❎ WebSocket connection closed")
+    logging.info("❎ WebSocket connection closed")
 
 # --- Main ---
 if __name__ == "__main__":

@@ -66,6 +66,7 @@ quote_source = (sp.read.from_kafka(topic=bitmex_quote_topic, brokers=kfk_broker)
     )
 
 quote_pipeline = (quote_source
+    #| sp.map(logging_func)
     | sp.write.to_stream('quote')
     )
 
