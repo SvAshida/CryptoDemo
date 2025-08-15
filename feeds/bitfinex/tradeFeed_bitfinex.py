@@ -13,7 +13,7 @@ producer = KafkaProducer(
     value_serializer=lambda v: json.dumps(v).encode('utf-8')
 )
 
-symbols = ["tBTCUSD", "tETHUSD", "tSOLUSD"]
+symbols = ["tBTCUSD", "tETHUSD", "tSOLUSD","tXRPUSD"]
 chan_map = {}
 
 def on_open(ws):
@@ -37,7 +37,7 @@ def on_message(ws, message):
                 "time": datetime.datetime.now(datetime.UTC).isoformat(timespec="microseconds").replace("+00:00", "Z"),
                 "sym": sym.replace("t", ""),  # remove 't'
                 "tradeID": trade[0],
-                "amount": abs(trade[2]),
+                "amount": abs(trade[2]/trade[3]),
                 "price": trade[3],
                 "side": "buy" if trade[2] > 0 else "sell",
                 "exchange": "bitfinex"

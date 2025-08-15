@@ -15,7 +15,7 @@ producer = KafkaProducer(
     value_serializer=lambda v: json.dumps(v).encode('utf-8')
 )
 
-symbols = ["XBTUSD", "ETHUSD", "SOLUSD"]
+symbols = ["XBTUSD", "ETHUSD", "SOLUSD","XRPUSD"]
 
 def on_open(ws):
     print("🔌 WebSocket connected")
@@ -32,7 +32,7 @@ def on_message(ws, message):
                     "time": datetime.datetime.now(datetime.UTC).isoformat(timespec="microseconds").replace("+00:00", "Z"),
                     "sym": trade["symbol"].replace("XBT", "BTC"),
                     "tradeID": trade["trdMatchID"],
-                    "amount": trade["size"],
+                    "amount": trade["size"]/trade["price"],
                     "price": trade["price"],
                     "side": trade["side"].lower(),
                     "exchange": "bitmex"

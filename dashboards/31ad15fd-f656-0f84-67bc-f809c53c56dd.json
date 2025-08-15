@@ -2,7 +2,7 @@
   "id": "31ad15fd-f656-0f84-67bc-f809c53c56dd",
   "name": "My New Dashboard",
   "creationDate": "Thu, 10 Jul 2025 03:20:02 GMT",
-  "lastUpdateDate": "Tue, 15 Jul 2025 05:48:05 GMT",
+  "lastUpdateDate": "Wed, 06 Aug 2025 09:45:03 GMT",
   "thumb": null,
   "screenDetails": [
     {
@@ -39,9 +39,9 @@
                 "SubmitButtonText": "Submit",
                 "ValidationAnalytic": "",
                 "ExpandDictParameters": true,
-                "ForceExecute": false,
+                "ForceExecute": true,
                 "ShowReset": false,
-                "ShowSubmit": false,
+                "ShowSubmit": true,
                 "FloatSubmit": true,
                 "FloatReset": true,
                 "ViewStates": [
@@ -81,8 +81,8 @@
                         ]
                       },
                       "Custom": {
-                        "Icon": "",
-                        "IconColor": ""
+                        "Icon": "Property",
+                        "IconColor": "Property"
                       },
                       "Items": []
                     }
@@ -226,7 +226,7 @@
                     "SectionId": "section_1719",
                     "Title": "Data Counts",
                     "TitleAlign": "Left",
-                    "Expanded": true,
+                    "Expanded": false,
                     "Flex": false,
                     "Weight": 1,
                     "Resizeable": false,
@@ -314,51 +314,45 @@
                           "<thisX>",
                           "<thisY>",
                           "<thisName>",
-                          "second",
                           "time",
                           "price",
-                          "size"
+                          "amount"
                         ],
                         "possibleColorColumns": [
                           "None",
-                          "second",
                           "time",
                           "price",
-                          "size"
+                          "amount"
                         ],
                         "possibleRadiusData": [
                           "Fixed Size",
-                          "second",
                           "time",
                           "price",
-                          "size"
+                          "amount"
                         ],
                         "possibleLayers": [],
                         "possibleRulesColumns": [],
                         "possibleXColumns": [
-                          "second",
                           "time",
                           "price",
-                          "size"
+                          "amount"
                         ],
                         "possibleYColumns": [
                           "*",
-                          "second",
                           "time",
                           "price",
-                          "size"
+                          "amount"
                         ],
                         "possibleMultiColumns": [
                           "",
                           "*",
-                          "second",
                           "time",
                           "price",
-                          "size"
+                          "amount"
                         ],
                         "Data": {
                           "_dashboardsType": "data",
-                          "value": "buyOrders"
+                          "value": "buy trades"
                         },
                         "PaletteTheme": " ",
                         "Palette": [
@@ -430,11 +424,8 @@
                         "XAxisMulti": "",
                         "Bubbles": {
                           "RadiusData": "Fixed Size",
-                          "RadiusScaling": {
-                            "_dashboardsType": "viewstate",
-                            "value": "utility/scaling"
-                          },
-                          "ScaleOnZoom": true,
+                          "RadiusScaling": 10,
+                          "ScaleOnZoom": false,
                           "Icon": "fa-close"
                         }
                       },
@@ -553,222 +544,10 @@
                         "YAxis": "price",
                         "XAxisMulti": "",
                         "Bubbles": {
-                          "RadiusData": "amount",
-                          "RadiusScaling": {
-                            "_dashboardsType": "viewstate",
-                            "value": "utility/scaling"
-                          },
-                          "ScaleOnZoom": true,
-                          "Icon": "fa-close"
-                        }
-                      },
-                      {
-                        "possibleActionsColumns": [
-                          "None",
-                          "<thisX>",
-                          "<thisY>",
-                          "<thisName>",
-                          "time",
-                          "vwap_bid_1",
-                          "vwap_bid_100",
-                          "vwap_bid_10000",
-                          "vwap_bid_1000000",
-                          "vwap_ask_1",
-                          "vwap_ask_100",
-                          "vwap_ask_10000",
-                          "vwap_ask_1000000"
-                        ],
-                        "possibleColorColumns": [
-                          "None",
-                          "time",
-                          "vwap_bid_1",
-                          "vwap_bid_100",
-                          "vwap_bid_10000",
-                          "vwap_bid_1000000",
-                          "vwap_ask_1",
-                          "vwap_ask_100",
-                          "vwap_ask_10000",
-                          "vwap_ask_1000000"
-                        ],
-                        "possibleRadiusData": [
-                          "Fixed Size",
-                          "time",
-                          "vwap_bid_1",
-                          "vwap_bid_100",
-                          "vwap_bid_10000",
-                          "vwap_bid_1000000",
-                          "vwap_ask_1",
-                          "vwap_ask_100",
-                          "vwap_ask_10000",
-                          "vwap_ask_1000000"
-                        ],
-                        "possibleLayers": [
-                          "No Fill",
-                          "Origin"
-                        ],
-                        "possibleRulesColumns": [],
-                        "possibleXColumns": [
-                          "time",
-                          "vwap_bid_1",
-                          "vwap_bid_100",
-                          "vwap_bid_10000",
-                          "vwap_bid_1000000",
-                          "vwap_ask_1",
-                          "vwap_ask_100",
-                          "vwap_ask_10000",
-                          "vwap_ask_1000000"
-                        ],
-                        "possibleYColumns": [
-                          "*",
-                          "time",
-                          "vwap_bid_1",
-                          "vwap_bid_100",
-                          "vwap_bid_10000",
-                          "vwap_bid_1000000",
-                          "vwap_ask_1",
-                          "vwap_ask_100",
-                          "vwap_ask_10000",
-                          "vwap_ask_1000000"
-                        ],
-                        "possibleMultiColumns": [
-                          "",
-                          "*",
-                          "time",
-                          "vwap_bid_1",
-                          "vwap_bid_100",
-                          "vwap_bid_10000",
-                          "vwap_bid_1000000",
-                          "vwap_ask_1",
-                          "vwap_ask_100",
-                          "vwap_ask_10000",
-                          "vwap_ask_1000000"
-                        ],
-                        "Data": {
-                          "_dashboardsType": "data",
-                          "value": "vwapDepth"
-                        },
-                        "PaletteTheme": " ",
-                        "Palette": [
-                          {
-                            "type": "#F23A66"
-                          },
-                          {
-                            "type": "#009BAB"
-                          },
-                          {
-                            "type": "#7647CC"
-                          },
-                          {
-                            "type": "#FFC300"
-                          },
-                          {
-                            "type": "#9FA3A6"
-                          },
-                          {
-                            "type": "#003A99"
-                          },
-                          {
-                            "type": "#A90B31"
-                          },
-                          {
-                            "type": "#005D67"
-                          },
-                          {
-                            "type": "#452481"
-                          },
-                          {
-                            "type": "#452481"
-                          }
-                        ],
-                        "Actions": [],
-                        "HighlightRules": [],
-                        "_Id": "L4",
-                        "_Type": "Line",
-                        "possibleXAxes": [
-                          "X-Axis 1"
-                        ],
-                        "possibleYAxes": [
-                          "Y-Axis 1"
-                        ],
-                        "Name": "VWAP DEPTH",
-                        "XAxisId": "X-Axis 1",
-                        "YAxisId": "Y-Axis 1",
-                        "Opacity": 80,
-                        "LegendGroup": "None",
-                        "ColorData": "None",
-                        "ShowCurrentTick": false,
-                        "CacheStreamingData": false,
-                        "Legend": true,
-                        "Enabled": true,
-                        "Labels": {
-                          "Align": "center",
-                          "Color": "#000000",
-                          "Enabled": false,
-                          "Font": {
-                            "Bold": false,
-                            "Size": 12
-                          },
-                          "Frequency": 1,
-                          "Offset": "0",
-                          "Rotation": 0,
-                          "MaxLabels": 10,
-                          "Template": "{{x}}, {{toFixed y 2}}"
-                        },
-                        "XAxis": "time",
-                        "YAxis": "*",
-                        "XAxisMulti": "",
-                        "Line": {
-                          "LineThickness": 1,
-                          "LineStyle": "None",
-                          "Fill": "No Fill",
-                          "SpanGaps": false,
-                          "Interpolation": {
-                            "Interpolation": "Linear",
-                            "SteppedLine": "After",
-                            "SegmentLength": 20
-                          },
-                          "PaletteTheme": " ",
-                          "FillPalette": [
-                            {
-                              "type": "#0061FF"
-                            },
-                            {
-                              "type": "#F23A66"
-                            },
-                            {
-                              "type": "#009BAB"
-                            },
-                            {
-                              "type": "#7647CC"
-                            },
-                            {
-                              "type": "#FFC300"
-                            },
-                            {
-                              "type": "#9FA3A6"
-                            },
-                            {
-                              "type": "#003A99"
-                            },
-                            {
-                              "type": "#A90B31"
-                            },
-                            {
-                              "type": "#005D67"
-                            },
-                            {
-                              "type": "#452481"
-                            }
-                          ],
-                          "DashGap": 1,
-                          "DashWidth": 1
-                        },
-                        "Bubbles": {
-                          "Opacity": 80,
                           "RadiusData": "Fixed Size",
-                          "RadiusScaling": 0,
-                          "ScaleOnZoom": true,
-                          "Icon": ""
+                          "RadiusScaling": 10,
+                          "ScaleOnZoom": false,
+                          "Icon": "fa-close"
                         }
                       },
                       {
@@ -1000,7 +779,7 @@
                         "possibleYAxes": [
                           "Y-Axis 1"
                         ],
-                        "Name": "Layer 5",
+                        "Name": "Sell Orders",
                         "XAxisId": "X-Axis 1",
                         "YAxisId": "Y-Axis 1",
                         "Color": "#ff0000",
@@ -1033,6 +812,213 @@
                           "RadiusScaling": 2,
                           "ScaleOnZoom": true,
                           "Icon": "fa-circle"
+                        }
+                      },
+                      {
+                        "possibleActionsColumns": [
+                          "None",
+                          "<thisX>",
+                          "<thisY>",
+                          "<thisName>",
+                          "time",
+                          "vwap_bid_1",
+                          "vwap_bid_100",
+                          "vwap_bid_10000",
+                          "vwap_bid_1000000",
+                          "vwap_ask_1",
+                          "vwap_ask_100",
+                          "vwap_ask_10000",
+                          "vwap_ask_1000000"
+                        ],
+                        "possibleColorColumns": [
+                          "None",
+                          "time",
+                          "vwap_bid_1",
+                          "vwap_bid_100",
+                          "vwap_bid_10000",
+                          "vwap_bid_1000000",
+                          "vwap_ask_1",
+                          "vwap_ask_100",
+                          "vwap_ask_10000",
+                          "vwap_ask_1000000"
+                        ],
+                        "possibleRadiusData": [
+                          "Fixed Size",
+                          "time",
+                          "vwap_bid_1",
+                          "vwap_bid_100",
+                          "vwap_bid_10000",
+                          "vwap_bid_1000000",
+                          "vwap_ask_1",
+                          "vwap_ask_100",
+                          "vwap_ask_10000",
+                          "vwap_ask_1000000"
+                        ],
+                        "possibleLayers": [
+                          "No Fill",
+                          "Origin"
+                        ],
+                        "possibleRulesColumns": [],
+                        "possibleXColumns": [
+                          "time",
+                          "vwap_bid_1",
+                          "vwap_bid_100",
+                          "vwap_bid_10000",
+                          "vwap_bid_1000000",
+                          "vwap_ask_1",
+                          "vwap_ask_100",
+                          "vwap_ask_10000",
+                          "vwap_ask_1000000"
+                        ],
+                        "possibleYColumns": [
+                          "*",
+                          "time",
+                          "vwap_bid_1",
+                          "vwap_bid_100",
+                          "vwap_bid_10000",
+                          "vwap_bid_1000000",
+                          "vwap_ask_1",
+                          "vwap_ask_100",
+                          "vwap_ask_10000",
+                          "vwap_ask_1000000"
+                        ],
+                        "possibleMultiColumns": [
+                          "",
+                          "*",
+                          "time",
+                          "vwap_bid_1",
+                          "vwap_bid_100",
+                          "vwap_bid_10000",
+                          "vwap_bid_1000000",
+                          "vwap_ask_1",
+                          "vwap_ask_100",
+                          "vwap_ask_10000",
+                          "vwap_ask_1000000"
+                        ],
+                        "Data": {
+                          "_dashboardsType": "data",
+                          "value": "vwapDepth"
+                        },
+                        "PaletteTheme": " ",
+                        "Palette": [
+                          {
+                            "type": "#F23A66"
+                          },
+                          {
+                            "type": "#009BAB"
+                          },
+                          {
+                            "type": "#7647CC"
+                          },
+                          {
+                            "type": "#FFC300"
+                          },
+                          {
+                            "type": "#9FA3A6"
+                          },
+                          {
+                            "type": "#003A99"
+                          },
+                          {
+                            "type": "#A90B31"
+                          },
+                          {
+                            "type": "#005D67"
+                          },
+                          {
+                            "type": "#452481"
+                          },
+                          {
+                            "type": "#452481"
+                          }
+                        ],
+                        "Actions": [],
+                        "HighlightRules": [],
+                        "_Id": "L4",
+                        "_Type": "Line",
+                        "possibleXAxes": [
+                          "X-Axis 1"
+                        ],
+                        "possibleYAxes": [
+                          "Y-Axis 1"
+                        ],
+                        "Name": "VWAP DEPTH",
+                        "XAxisId": "X-Axis 1",
+                        "YAxisId": "Y-Axis 1",
+                        "Opacity": 80,
+                        "LegendGroup": "None",
+                        "ColorData": "None",
+                        "ShowCurrentTick": false,
+                        "CacheStreamingData": false,
+                        "Legend": true,
+                        "Enabled": true,
+                        "Labels": {
+                          "Align": "center",
+                          "Color": "#000000",
+                          "Enabled": false,
+                          "Font": {
+                            "Bold": false,
+                            "Size": 12
+                          },
+                          "Frequency": 1,
+                          "Offset": "0",
+                          "Rotation": 0,
+                          "MaxLabels": 10,
+                          "Template": "{{x}}, {{toFixed y 2}}"
+                        },
+                        "XAxis": "time",
+                        "YAxis": "*",
+                        "XAxisMulti": "",
+                        "Line": {
+                          "LineThickness": 1,
+                          "LineStyle": "None",
+                          "Fill": "No Fill",
+                          "SpanGaps": false,
+                          "Interpolation": {
+                            "Interpolation": "Linear",
+                            "SteppedLine": "After",
+                            "SegmentLength": 20
+                          },
+                          "PaletteTheme": " ",
+                          "FillPalette": [
+                            {
+                              "type": "#0061FF"
+                            },
+                            {
+                              "type": "#F23A66"
+                            },
+                            {
+                              "type": "#009BAB"
+                            },
+                            {
+                              "type": "#7647CC"
+                            },
+                            {
+                              "type": "#FFC300"
+                            },
+                            {
+                              "type": "#9FA3A6"
+                            },
+                            {
+                              "type": "#003A99"
+                            },
+                            {
+                              "type": "#A90B31"
+                            },
+                            {
+                              "type": "#005D67"
+                            },
+                            {
+                              "type": "#452481"
+                            }
+                          ]
+                        },
+                        "Bubbles": {
+                          "Opacity": 80,
+                          "RadiusData": "Fixed Size",
+                          "RadiusScaling": 0,
+                          "ScaleOnZoom": true,
+                          "Icon": ""
                         }
                       }
                     ],
@@ -1408,30 +1394,45 @@
                         "options": {
                           "version": "v2.5.1",
                           "datagridPossibleColumns": [
-                            "Property",
-                            "Value"
+                            "exchange",
+                            "sym",
+                            "dap",
+                            "date",
+                            "x"
                           ],
                           "datagridPossibleHeaderColumns": [
                             "none"
                           ],
                           "datagridPossibleColumnsWithItself": [
                             "<this>",
-                            "Property",
-                            "Value"
+                            "exchange",
+                            "sym",
+                            "dap",
+                            "date",
+                            "x"
                           ],
                           "selectedColumnPossibleValues": [
-                            "Property",
-                            "Value"
+                            "exchange",
+                            "sym",
+                            "dap",
+                            "date",
+                            "x"
                           ],
                           "highlightTargetPossibleValues": [
-                            "Property",
-                            "Value",
+                            "exchange",
+                            "sym",
+                            "dap",
+                            "date",
+                            "x",
                             "*"
                           ],
                           "sortingPossibleValues": [
                             "",
-                            "Property",
-                            "Value"
+                            "exchange",
+                            "sym",
+                            "dap",
+                            "date",
+                            "x"
                           ],
                           "footerPossibleValues": [
                             "None",
@@ -1450,17 +1451,42 @@
                           },
                           "ColumnsConfiguration": [
                             {
-                              "Field": "Property",
-                              "DisplayName": "Property",
+                              "Field": "exchange",
+                              "DisplayName": "exchange",
                               "WidthWeight": 100,
                               "MinWidthAbsolute": 100,
                               "TextAlign": "left"
                             },
                             {
-                              "Field": "Value",
-                              "DisplayName": "Value",
+                              "Field": "sym",
+                              "DisplayName": "sym",
                               "WidthWeight": 100,
-                              "MinWidthAbsolute": 100
+                              "MinWidthAbsolute": 100,
+                              "TextAlign": "left"
+                            },
+                            {
+                              "Field": "dap",
+                              "DisplayName": "dap",
+                              "WidthWeight": 100,
+                              "MinWidthAbsolute": 100,
+                              "TextAlign": "left"
+                            },
+                            {
+                              "Field": "date",
+                              "DisplayName": "date",
+                              "Format": "Date",
+                              "WidthWeight": 80,
+                              "MinWidthAbsolute": 80,
+                              "TextAlign": "right"
+                            },
+                            {
+                              "Field": "x",
+                              "DisplayName": "x",
+                              "Format": "Formatted Number",
+                              "Precision": 0,
+                              "WidthWeight": 165,
+                              "MinWidthAbsolute": 165,
+                              "TextAlign": "right"
                             }
                           ],
                           "Alignment": {
@@ -1500,102 +1526,6 @@
               }
             ],
             "definitionId": "56",
-            "hasOnSettingsChange": true
-          }
-        },
-        {
-          "id": "c2815d48-07a5-17e1-8408-6591f06c5cc9",
-          "layout": {
-            "row": 0,
-            "column": 24,
-            "rowSpan": 2,
-            "colSpan": 12
-          },
-          "component": {
-            "id": "7afcdb0e-d237-5bf3-713e-33a890a9fdd3",
-            "key": "Dataform",
-            "options": {
-              "version": "v2.4.0",
-              "isDataform": true,
-              "Basics": {
-                "Name": "",
-                "Data": {
-                  "_dashboardsType": "data",
-                  "value": "time dataform"
-                },
-                "SubmitButtonText": "Submit",
-                "ValidationAnalytic": "",
-                "ExpandDictParameters": true,
-                "ForceExecute": false,
-                "ShowReset": false,
-                "ShowSubmit": false,
-                "FloatSubmit": true,
-                "FloatReset": true,
-                "ViewStates": [
-                  {
-                    "PathEnc": "utility%2FstartTime",
-                    "DisplayName": "Start Time",
-                    "HideParameter": false,
-                    "Tooltip": "",
-                    "AllowNulls": true,
-                    "FieldType": {}
-                  },
-                  {
-                    "PathEnc": "utility%2FendTime",
-                    "DisplayName": "End Time",
-                    "HideParameter": false,
-                    "Tooltip": "",
-                    "AllowNulls": true,
-                    "FieldType": {}
-                  }
-                ],
-                "Actions": []
-              },
-              "Style": {
-                "advanced": "",
-                "cssClasses": "",
-                "minWidth": "",
-                "display": "Row",
-                "inline": "Top",
-                "labelWidth": "",
-                "labelPadding": "",
-                "labelAlign": "Left",
-                "padding": "",
-                "verticalSpacing": "",
-                "submitOffset": "",
-                "resetOffset": "",
-                "formMargin": ""
-              },
-              "Alignment": {
-                "paddingLeft": 0,
-                "paddingRight": 0,
-                "paddingTop": 0,
-                "paddingBottom": 0,
-                "innerPaddingLeft": 0,
-                "innerPaddingRight": 0,
-                "innerPaddingTop": 0,
-                "innerPaddingBottom": 0,
-                "titlePaddingLeft": 0,
-                "titlePaddingRight": 0,
-                "titlePaddingTop": 7,
-                "titlePaddingBottom": 7
-              },
-              "format": {
-                "titleFontSize": 16,
-                "titleHorizontal": "Center",
-                "titleShadow": false,
-                "tileBorderWidth": 0,
-                "tileBorderRounding": 0,
-                "tileBorderColor": "#000000",
-                "tileBackgroundColor": "#000000",
-                "tileTransparentBackground": true,
-                "tileShadow": false
-              }
-            },
-            "containerId": null,
-            "components": [],
-            "widgets": [],
-            "definitionId": "27",
             "hasOnSettingsChange": true
           }
         },
@@ -1851,7 +1781,7 @@
     },
     "coins": {
       "_viewType": true,
-      "_default": "",
+      "_default": "XRPUSD",
       "_type": "symbol"
     },
     "exchange": {
@@ -1862,7 +1792,7 @@
     "size": {
       "_viewType": true,
       "_type": "float",
-      "_default": 5
+      "_default": 0
     },
     "accordionState": {
       "_viewType": true,
@@ -1877,8 +1807,8 @@
       },
       "endWindow": {
         "_viewType": true,
-        "_type": "timestamp",
-        "_default": "2025-07-15T02:46:07.824000000Z"
+        "_type": "timespan",
+        "_default": "1970-01-01T00:00:00.000Z"
       },
       "endTime": {
         "_viewType": true,
@@ -1898,7 +1828,7 @@
       "window": {
         "_viewType": true,
         "_type": "float",
-        "_default": ""
+        "_default": 60
       },
       "current": {
         "_viewType": true,
@@ -1952,27 +1882,27 @@
       "_subscriptionInterval": 3,
       "_layout": [
         {
-          "weight": 2,
-          "isExpanded": true
+          "isExpanded": true,
+          "weight": 2
         },
         {
-          "weight": 1,
-          "isExpanded": false
+          "isExpanded": false,
+          "weight": 1
         },
         {
-          "weight": 1,
-          "isExpanded": false
+          "isExpanded": false,
+          "weight": 1
         },
         {
-          "weight": 0,
-          "isExpanded": true
+          "isExpanded": true,
+          "weight": 0
         },
         {
-          "weight": 2,
-          "isExpanded": true
+          "isExpanded": true,
+          "weight": 2
         }
       ],
-      "_queryString": "{[coins]\r\n  {x!x}`BTCUSD`SOLUSD`ETHUSD}",
+      "_queryString": "{[coins]\r\n  {x!x}`BTCUSD`SOLUSD`ETHUSD`XRPUSD}",
       "_queryParams": [
         {
           "name": "coins",
@@ -2016,24 +1946,24 @@
       },
       "_layout": [
         {
-          "weight": 2,
-          "isExpanded": true
+          "isExpanded": true,
+          "weight": 2
         },
         {
-          "weight": 1,
-          "isExpanded": false
+          "isExpanded": false,
+          "weight": 1
         },
         {
-          "weight": 1,
-          "isExpanded": false
+          "isExpanded": false,
+          "weight": 1
         },
         {
-          "weight": 0,
-          "isExpanded": true
+          "isExpanded": true,
+          "weight": 0
         },
         {
-          "weight": 2,
-          "isExpanded": true
+          "isExpanded": false,
+          "weight": 2
         }
       ],
       "_queryString": "{[coin;exchange;minSize;current;startTime;endTime;window]\r\n  $[current;\r\n    tab:queryData[`trade;.z.p-`minute$window;.z.p;coin;exchange];\r\n    tab:queryData[`trade;startTime;endTime;coin;exchange]\r\n  ];\r\n  $[99h ~ abs type tab;\r\n    :([]time:();price:();amount:());\r\n    :select time, price, amount from tab where side =`buy, amount > minSize]\r\n  }",
@@ -2095,7 +2025,7 @@
           "isViewState": true
         }
       ],
-      "_subscriptionKey": "",
+      "_subscriptionKey": "time",
       "_hasUpdateQuery": false,
       "_updateQueryParams": [],
       "_updateQueryString": "",
@@ -2207,7 +2137,7 @@
           "isViewState": true
         }
       ],
-      "_subscriptionKey": "",
+      "_subscriptionKey": "time",
       "_hasUpdateQuery": false,
       "_updateQueryParams": [],
       "_updateQueryString": "",
@@ -2276,9 +2206,8 @@
       "_serverPaging": false
     },
     "vwapDepth": {
-      "_pagingType": "NONE",
-      "_autoExecute": true,
       "_autoExec": true,
+      "_autoExecute": true,
       "_columns": [
         "time",
         "vwap_bid_1",
@@ -2299,6 +2228,7 @@
         "value": "vwap_bid_1"
       },
       "_maxRows": "2000000",
+      "_forceReset": true,
       "_subscriptionType": "polling",
       "_subscriptionInterval": {
         "_dashboardsType": "viewstate",
@@ -2363,7 +2293,7 @@
         {
           "name": "endTime",
           "index": 4,
-          "type": "timestamp",
+          "type": "timespan",
           "value": "<%utility/endWindow%>",
           "IsKdbParam": true,
           "isViewState": true
@@ -2385,7 +2315,7 @@
           "isViewState": true
         }
       ],
-      "_subscriptionKey": "",
+      "_subscriptionKey": "time",
       "_hasUpdateQuery": false,
       "_updateQueryParams": [],
       "_updateQueryString": "",
@@ -2407,24 +2337,24 @@
       "_subscriptionInterval": 3,
       "_layout": [
         {
-          "weight": 2,
-          "isExpanded": true
+          "isExpanded": true,
+          "weight": 2
         },
         {
-          "weight": 1,
-          "isExpanded": false
+          "isExpanded": false,
+          "weight": 1
         },
         {
-          "weight": 1,
-          "isExpanded": false
+          "isExpanded": false,
+          "weight": 1
         },
         {
-          "weight": 1,
-          "isExpanded": true
+          "isExpanded": true,
+          "weight": 0
         },
         {
-          "weight": 2,
-          "isExpanded": false
+          "isExpanded": true,
+          "weight": 2
         }
       ],
       "_queryString": "{[coins;exchange;size]}",
@@ -2621,27 +2551,27 @@
       },
       "_layout": [
         {
-          "isExpanded": true,
-          "weight": 2
+          "weight": 2,
+          "isExpanded": true
         },
         {
-          "isExpanded": false,
-          "weight": 1
+          "weight": 1,
+          "isExpanded": false
         },
         {
-          "isExpanded": false,
-          "weight": 1
+          "weight": 1,
+          "isExpanded": false
         },
         {
-          "isExpanded": true,
-          "weight": 0
+          "weight": 0,
+          "isExpanded": true
         },
         {
-          "isExpanded": true,
-          "weight": 2
+          "weight": 2,
+          "isExpanded": true
         }
       ],
-      "_queryString": "{[coin;exchange;minSize;current;startTime;endTime;window;bucket]\r\n  \r\n  $[current;\r\n    tab:queryData[`quote;.z.p-`minute$window;.z.p;coin;exchange];\r\n    tab:queryData[`quote;startTime;endTime;coin;exchange]\r\n  ];\r\n  $[99h ~ abs type tab;\r\n    :([]time:();sym:();side:();price:();size:();action:();orderID:();exchange:());\r\n    :select first time, avg price, size:10 xlog sum size by bucket xbar time.second from tab where action=`update, side=`bid, size> minSize]\r\n\r\n  }",
+      "_queryString": "{[coin;exchange;minSize;current;startTime;endTime;window;bucket]\r\n  \r\n  $[current;\r\n    tab:queryData[`quote;.z.p-`minute$window;.z.p;coin;exchange];\r\n    tab:queryData[`quote;startTime;endTime;coin;exchange]\r\n  ];\r\n  $[99h ~ abs type tab;\r\n    :([]time:();sym:();side:();price:();size:();action:();orderID:();exchange:());\r\n    :select first time, max price, size:10 xlog sum size by bucket xbar time.second from tab where action=`update, side=`bid, size> minSize]\r\n\r\n  }",
       "_queryParams": [
         {
           "name": "coin",
@@ -2708,7 +2638,7 @@
           "isViewState": true
         }
       ],
-      "_subscriptionKey": "",
+      "_subscriptionKey": "time",
       "_hasUpdateQuery": false,
       "_updateQueryParams": [],
       "_updateQueryString": "",
@@ -2720,7 +2650,12 @@
       "_pagingType": "NONE",
       "_autoExecute": true,
       "_autoExec": true,
-      "_columns": [],
+      "_columns": [
+        "second",
+        "time",
+        "price",
+        "size"
+      ],
       "_dataType": "query",
       "_dataSource": "kdb",
       "_connection": "crypto",
@@ -2729,7 +2664,7 @@
         "mappings": {},
         "value": "time"
       },
-      "_maxRows": 2000,
+      "_maxRows": "200000",
       "_subscriptionType": "polling",
       "_subscriptionInterval": {
         "_dashboardsType": "viewstate",
@@ -2754,10 +2689,10 @@
         },
         {
           "weight": 2,
-          "isExpanded": true
+          "isExpanded": false
         }
       ],
-      "_queryString": "{[coin;exchange;minSize;current;startTime;endTime;window;bucket]\r\n  $[current;\r\n    tab:queryData[`quote;.z.p-`minute$window;.z.p;coin;exchange];\r\n    tab:queryData[`quote;startTime;endTime;coin;exchange]\r\n  ];\r\n  $[99h ~ abs type tab;\r\n    :([]time:();sym:();side:();price:();size:();action:();orderID:();exchange:());\r\n    :select first time, avg price, size:10 xlog sum size by bucket xbar time.second from tab where action=`update, side=`ask, size> minSize]\r\n\r\n  }",
+      "_queryString": "{[coin;exchange;minSize;current;startTime;endTime;window;bucket]\r\n  $[current;\r\n    tab:queryData[`quote;.z.p-`minute$window;.z.p;coin;exchange];\r\n    tab:queryData[`quote;startTime;endTime;coin;exchange]\r\n  ];\r\n  $[99h ~ abs type tab;\r\n    :([]time:();sym:();side:();price:();size:();action:();orderID:();exchange:());\r\n    :select first time, min price, size:10 xlog sum size by bucket xbar time.second from tab where action=`update, side=`ask, size> minSize]\r\n\r\n  }",
       "_queryParams": [
         {
           "name": "coin",
@@ -2824,7 +2759,7 @@
           "isViewState": true
         }
       ],
-      "_subscriptionKey": "",
+      "_subscriptionKey": "time",
       "_hasUpdateQuery": false,
       "_updateQueryParams": [],
       "_updateQueryString": "",
@@ -2833,8 +2768,9 @@
       "_serverPaging": false
     },
     "customScaling": {
-      "_autoExec": true,
+      "_pagingType": "NONE",
       "_autoExecute": true,
+      "_autoExec": true,
       "_columns": [
         "Property",
         "Value"
@@ -3208,8 +3144,9 @@
       "_serverPaging": false
     },
     "bucketing": {
-      "_autoExec": true,
+      "_pagingType": "NONE",
       "_autoExecute": true,
+      "_autoExec": true,
       "_columns": [
         "Property",
         "Value"
@@ -3300,8 +3237,9 @@
       "_serverPaging": false
     },
     "timestampWindows": {
-      "_autoExec": true,
+      "_pagingType": "NONE",
       "_autoExecute": true,
+      "_autoExec": true,
       "_columns": [
         "Property",
         "Value"

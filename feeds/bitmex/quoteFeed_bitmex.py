@@ -29,7 +29,7 @@ def emit_tick(sym, side, price, size, orderID, action):
         "sym": normalize_symbol(sym),
         "side": side,
         "price": float(price),
-        "size": float(size),
+        "size": float(size)/float(price),
         "action": action,
         "orderID": str(orderID),
         "exchange": "bitmex"
@@ -57,7 +57,7 @@ def on_open(ws):
     print("🚀 Subscribing to BitMEX quote feed...")
     ws.send(json.dumps({
         "op": "subscribe",
-        "args": ["orderBookL2_25:XBTUSD", "orderBookL2_25:ETHUSD", "orderBookL2_25:SOLUSD"]
+        "args": ["orderBookL2_25:XBTUSD", "orderBookL2_25:ETHUSD", "orderBookL2_25:SOLUSD","orderBookL2_25:XRPUSD"]
     }))
 
 def on_error(ws, error):

@@ -174,6 +174,8 @@ services:
       - RT_PUB_TOPIC=bitfinex
       - RT_SUB_TOPIC=bitfinex
       - RT_REPLICAS=${kxi_rt_replicas}
+      - KXI_SP_CHECKPOINT_FREQ=0
+      - KXI_SP_SILENCE_CHECKPOINTS=true
       # - KXI_CONFIG_FILE=/opt/kx/cfg/sp/sp-config.json
       # - KXI_SP_BETA_FEATURES=true
     ports:

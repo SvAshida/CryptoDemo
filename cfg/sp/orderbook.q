@@ -39,6 +39,18 @@ book_stream: .qsp.read.fromStream[`quote]
   .qsp.map[{
         .debug.x:x;
         books:update bidbook:bookbuilder\[@[lastBookBySymExch;(first sym; first exchange)]`bidbook;flip (side like "bid";orderID;price;size;action)],askbook:bookbuilder\[@[lastBookBySymExch;(first sym; first exchange)]`askbook;flip (side like "ask";orderID;price;size;action)] by sym, exchange from x;
+        $[all (not `remove=first x[`action];`bid = first x[`side]);
+            [
+                tmpBook:enlist tmp!(raze books[`askbook])[tmp:(key raze books[`askbook]) where  value (raze books[`askbook])[;0] > first x[`price]];
+                books:update askbook:tmpBook from books
+                ];
+        all (not `remove=first x[`action];`ask = first x[`side]);    
+            [
+                tmpBook:enlist tmp!(raze books[`bidbook])[tmp:(key raze books[`bidbook]) where  value (raze books[`bidbook])[;0] < first x[`price]];
+                books:update bidbook:tmpBook from books
+            ];
+            books
+        ];
         lastBookBySymExch,:exec last bidbook,last askbook by sym, exchange from books;
         books:select time,sym,exchange,bids:(value each bidbook)[;;0],bidsizes:(value each bidbook)[;;1],asks:(value each askbook)[;;0],asksizes:(value each askbook)[;;1] from books;
         books:`time`sym`bids`bidsizes`asks`asksizes`exchange xcols update bids:desc each distinct each bids,bidsizes:{sum each x group y}'[bidsizes;bids] @' desc each distinct each bids,asks:asc each distinct each asks,asksizes:{sum each x group y}'[asksizes;asks] @' asc each distinct each asks from books
@@ -47,3 +59,5 @@ book_stream: .qsp.read.fromStream[`quote]
 
 // Start the pipeline
 .qsp.run (book_stream)
+
+select from lastBookBySymExch where sym=`BTCUSD, exchange=`bitfinex
