@@ -52,6 +52,18 @@ The same options are available from above to stop the required containers
 
 ## Dashboards 
 A gateway process for dashboards is instantiated in the docker scripts at `5011, but the dashboards package will need to be downloaded and added to the directory
+
+## Directory Structure
+CryptoDemo/
+├── cfg/                    # YAML configs for feeds, metrics, aggregation
+├── dashboards/            # Grafana JSON dashboards
+├── docker/                # Docker Compose and .env setup
+├── feeds/                 # Feed scripts per exchange (Bitfinex, BitMEX)
+├── scripts/               # Start/stop convenience scripts
+├── requirements.txt       # Python dependencies
+└── README.md              # This file
+
+=======
 within the dashboards/ directory, a sample dashboard showing simple aggaregation can be found. Updates may need to be made to the connection handle 
 If running locally
 host: 127.0.0.1

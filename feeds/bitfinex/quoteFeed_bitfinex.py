@@ -24,8 +24,7 @@ producer = KafkaProducer(
 )
 
 # List of symbols to subscribe to
-symbols = ["tBTCUSD", "tETHUSD", "tSOLUSD"]
-# TODO: add XRP
+symbols = ["tBTCUSD", "tETHUSD", "tSOLUSD","tXRPUSD"]
 # Map Bitfinex channel IDs to symbols
 channel_map = {}
 
@@ -63,7 +62,7 @@ def emit_tick(sym, entry):
         "sym": sym[1:],  # Remove 't' prefix, e.g., BTCUSD
         "side": side,
         "price": price,
-        "size": abs(amount*price),
+        "size": abs(amount),
         "action": action,
         "orderID": str(order_id),
         "exchange": "bitfinex"
