@@ -5,9 +5,20 @@ import threading
 from kafka import KafkaProducer
 import os
 import pathlib
+import logging
+import sys
 
 SCRIPT_DIR = pathlib.Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent.parent
+
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s %(levelname)s: %(message)s',
+    handlers=[
+        logging.StreamHandler(sys.stdout)  # <--- important
+    ]
+)
 
 producer = KafkaProducer(
     bootstrap_servers='kafka:9092',
@@ -40,7 +51,7 @@ def on_message(ws, message):
     try:
         msg = json.loads(message)
     except Exception as e:
-        print("❌ JSON decode error:", e)
+        logging.info("❌ JSON decode error:", e)
         return
     if msg.get("table") == "orderBookL2_25" and msg.get("table") != "partial":
         action = msg.get("action")
@@ -54,17 +65,17 @@ def on_message(ws, message):
                 emit_tick(sym, "ask", entry["price"], size, orderID, action)
 
 def on_open(ws):
-    print("🚀 Subscribing to BitMEX quote feed...")
+    logging.info(f"🚀 Subscribing to BitMEX quote feed...")
     ws.send(json.dumps({
         "op": "subscribe",
         "args": ["orderBookL2_25:XBTUSD", "orderBookL2_25:ETHUSD", "orderBookL2_25:SOLUSD","orderBookL2_25:XRPUSD"]
     }))
 
 def on_error(ws, error):
-    print("❌ WebSocket error:", error)
+    logging.info("❌ WebSocket error:", error)
 
 def on_close(ws, code, reason):
-    print(f"🔌 WebSocket closed: {code}, {reason}")
+    logging.info(f"🔌 WebSocket closed: {code}, {reason}")
 
 # Run
 if __name__ == "__main__":
